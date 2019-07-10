@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "868021885982",
+    "firebase_url": "https://hustle-eb46c.firebaseio.com",
+    "project_id": "hustle-eb46c",
+    "storage_bucket": "hustle-eb46c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:868021885982:android:6c709acc0f767834",
+        "android_client_info": {
+          "package_name": "com.example.hustle"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "868021885982-v4pj7n7lb2hkn6n9638dpjin99ej1nva.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.hustle",
+            "certificate_hash": "6aa70c7b5650947a0f42b2e58dadb820a08edd45"
+          }
+        },
+        {
+          "client_id": "868021885982-k8o4ka87ccj3kbp7nia5ook2s0fd3g3h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCsEZteZnWamYbKey1xDihX7jENpt53jWo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "868021885982-k8o4ka87ccj3kbp7nia5ook2s0fd3g3h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

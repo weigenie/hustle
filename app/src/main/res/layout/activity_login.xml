@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#8FB2A8"
+    tools:context=".MainActivity">
+
+    //HUSTLE logo Image View
+    <ImageView
+        android:id="@+id/logo_imageview"
+
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+
+        android:layout_marginTop="50dp"
+        android:layout_centerHorizontal="true"
+
+        android:src="@drawable/logo" />
+
+    //"CREATE A NEW ACCOUNT" Text View
+    <TextView
+        android:id="@+id/create_textview"
+
+        android:layout_width="232dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/logo_imageview"
+
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="1dp"
+
+        android:text="CREATE A NEW ACCOUNT"
+        android:textSize="25dp"
+        android:fontFamily="@font/glacial_indifference_bold"
+        android:textColor="#FFF"
+        android:gravity="center" />
+
+    //"for the best experience with HUSTLE" Text View
+    <TextView
+        android:id="@+id/best_textview"
+
+        android:layout_width="232dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/create_textview"
+
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+
+        android:text="for the best experience with HUSTLE."
+        android:textSize="15dp"
+        android:fontFamily="@font/glacial_indifference_regular"
+        android:textColor="#FFF"
+        android:gravity="center" />
+
+    //Email Edit Text
+    <EditText
+        android:id="@+id/edit_username"
+
+        android:layout_width="290dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/best_textview"
+
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+
+        android:background="@drawable/login_box"
+
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+
+        android:ems="15"
+        android:hint="email"
+        android:inputType="textPersonName"
+        android:fontFamily="@font/glacial_indifference_regular"
+        android:textColor="#6D6D6D"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.578"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    //Password Edit Text
+    <EditText
+        android:id="@+id/edit_password"
+
+        android:layout_width="290dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edit_username"
+
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+
+        android:background="@drawable/login_box"
+
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+
+        android:ems="15"
+        android:hint="password"
+        android:inputType="textPassword"
+        android:fontFamily="@font/glacial_indifference_regular"
+        android:textColor="#6D6D6D"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_username" />
+
+
+    //LOGIN button
+    <Button
+        android:id="@+id/button_login"
+
+        android:layout_width="110dp"
+        android:layout_height="35dp"
+        android:layout_below="@+id/edit_password"
+        android:layout_toRightOf="@id/button_toRegister"
+
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="40dp"
+
+        android:background="#66FFFFFF"
+
+        android:text="Login"
+        android:textSize="20dp"
+        android:fontFamily="@font/glacial_indifference_bold"
+        android:textColor="#FFF"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_password" />
+
+    //REGISTER button
+    <Button
+        android:id="@+id/button_toRegister"
+
+        android:layout_width="110dp"
+        android:layout_height="35dp"
+        android:layout_below="@+id/edit_password"
+
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="40dp"
+
+        android:background="#66FFFFFF"
+
+        android:text="Register"
+        android:textSize="20dp"
+        android:fontFamily="@font/glacial_indifference_bold"
+        android:textColor="#FFF"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_login" />
+</RelativeLayout>

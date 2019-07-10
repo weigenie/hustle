@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFC178">
+
+
+    <TextView
+        android:id="@+id/intro_textview"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp"
+
+        android:fontFamily="@font/determination_monoweb"
+        android:text="time to hustle!"
+        android:textColor="#FFF"
+
+        android:textSize="27dp"
+        app:layout_constraintBottom_toTopOf="@+id/text_duration"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+    <TextView
+        android:id="@+id/text_duration"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/intro_textview"
+
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+
+
+        android:fontFamily="@font/determination_monoweb"
+        android:gravity="center"
+        android:text="00:00"
+        android:textColor="#FFF"
+        android:textSize="100dp"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <Button
+        android:id="@+id/button_timer"
+
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_below="@+id/text_duration"
+
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+
+        android:background="@drawable/play"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_duration" />
+
+
+
+    <!--<Button-->
+        <!--android:id="@+id/toStats"-->
+
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_below="@+id/button_timer"-->
+
+        <!--android:layout_marginTop="36dp"-->
+        <!--android:layout_centerHorizontal="true"-->
+
+        <!--android:text="Stats page"-->
+        <!--app:layout_constraintEnd_toEndOf="parent"-->
+        <!--app:layout_constraintStart_toStartOf="parent"-->
+        <!--app:layout_constraintTop_toBottomOf="@+id/button_timer" />-->
+
+    <!--<Button-->
+        <!--android:id="@+id/toTodo"-->
+
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_below="@+id/toStats"-->
+
+        <!--android:layout_marginTop="30dp"-->
+        <!--android:layout_centerHorizontal="true"-->
+
+        <!--android:text="TO-DO PAGE"-->
+        <!--app:layout_constraintEnd_toEndOf="parent"-->
+        <!--app:layout_constraintStart_toStartOf="parent"-->
+        <!--app:layout_constraintTop_toBottomOf="@+id/button_timer" />-->
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_nav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:itemIconTint="#FFF"
+        app:itemTextColor="#FFF"
+        app:menu="@menu/bottom_navigation" />
+
+</RelativeLayout>

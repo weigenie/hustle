@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout2"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#8FB2A8" >
+
+    //"CREATE A NEW ACCOUNT" Text View
+    <TextView
+        android:id="@+id/create_textview"
+
+        android:layout_width="232dp"
+        android:layout_height="wrap_content"
+
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp"
+
+        android:text="CREATE A NEW ACCOUNT"
+        android:textSize="25dp"
+        android:fontFamily="@font/glacial_indifference_bold"
+        android:textColor="#FFF"
+        android:gravity="center" />
+
+    //"for the best experience with HUSTLE" Text View
+    <TextView
+        android:id="@+id/best_textview"
+
+        android:layout_width="232dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/create_textview"
+
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+
+        android:text="for the best experience with HUSTLE."
+        android:textSize="15dp"
+        android:fontFamily="@font/glacial_indifference_regular"
+        android:textColor="#FFF"
+        android:gravity="center" />
+
+    //Email Registration Edit Text
+    <EditText
+        android:id="@+id/edit_email_registration"
+
+        android:layout_width="290dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/best_textview"
+
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+
+        android:background="@drawable/login_box"
+
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+
+        android:ems="10"
+        android:hint="email"
+        android:inputType="textEmailAddress"
+        android:fontFamily="@font/glacial_indifference_regular"
+        android:textColor="#6D6D6D"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    //Password Registration Edit Text
+    <EditText
+        android:id="@+id/edit_password_registration"
+
+        android:layout_width="290dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edit_email_registration"
+
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+
+        android:background="@drawable/login_box"
+
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+
+        android:ems="10"
+        android:hint="password"
+        android:inputType="textPassword"
+        android:fontFamily="@font/glacial_indifference_regular"
+        android:textColor="#6D6D6D"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_email_registration"
+        app:layout_constraintVertical_bias="0.019" />
+
+    //Register Button
+    <Button
+        android:id="@+id/button_register"
+
+        android:layout_width="110dp"
+        android:layout_height="35dp"
+        android:layout_below="@+id/edit_password_registration"
+
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+
+        android:background="#66FFFFFF"
+
+        android:text="Register"
+        android:textSize="20dp"
+        android:fontFamily="@font/glacial_indifference_bold"
+        android:textColor="#FFF"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_password_registration"
+        app:layout_constraintVertical_bias="0.027" />
+    
+</RelativeLayout>
