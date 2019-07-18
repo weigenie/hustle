@@ -1,14 +1,10 @@
 package com.example.hustle;
 
-import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -18,34 +14,67 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
 
 import java.util.ArrayList;
 
 public class TodoActivity extends AppCompatActivity {
 
+        private FloatingActionButton add;
         private static final String TAG = "MainActivity";
-        private TaskDbHelper mHelper;
         private ListView mTaskListView;
+        ArrayList<String> todos = new ArrayList<>();
         private ArrayAdapter<String> mAdapter;
+        DatabaseReference fireDb;
+        FirebaseAuth auth;
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_todos);
 
-            mHelper = new TaskDbHelper(this);
-            SQLiteDatabase db = mHelper.getReadableDatabase();
+            add = (FloatingActionButton) findViewById(R.id.fab_add);
             mTaskListView = (ListView) findViewById(R.id.list_todo);
 
-            Cursor cursor = db.query(TaskContract.TaskEntry.TABLE,
-                    new String[]{TaskContract.TaskEntry._ID, TaskContract.TaskEntry.COL_TASK_TITLE},
-                    null, null, null, null, null);
-            while(cursor.moveToNext()) {
-                int idx = cursor.getColumnIndex(TaskContract.TaskEntry.COL_TASK_TITLE);
-                Log.d(TAG, "Task: " + cursor.getString(idx));
-            }
-            cursor.close();
-            db.close();
+            fireDb = LoginActivity.db.getReference("users");
+            auth = FirebaseAuth.getInstance();
+
+            add.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    try {
+                        final EditText taskEditText = new EditText(TodoActivity.this);
+                        AlertDialog dialog = new AlertDialog.Builder(TodoActivity.this)
+                                .setTitle("Add a new task")
+                                .setMessage("What do you want to do next?")
+                                .setView(taskEditText)
+                                .setPositiveButton("Add", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        String task = String.valueOf(taskEditText.getText());
+                                        ArrayList<String> temp = new ArrayList<>();
+                                        for (String x: todos) {
+                                            temp.add(x);
+                                            System.out.println("adding: " + x);
+                                        }
+                                        System.out.println("before: " + temp);
+                                        temp.add(task);
+                                        System.out.println("after: " + temp);
+                                        fireDb.child(auth.getUid()).child("todos").setValue(temp);
+                                        todos = temp;
+                                    }
+                                })
+                                .setNegativeButton("Cancel", null)
+                                .create();
+                        dialog.show();
+                        updateUI();
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                    }
+                }
+            });
             updateUI();
 
             BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bottom_nav);
@@ -69,117 +98,23 @@ public class TodoActivity extends AppCompatActivity {
             });
         }
 
-        @Override
-        public boolean onCreateOptionsMenu(Menu menu) {
-            getMenuInflater().inflate(R.menu.main_menu, menu);
-            return super.onCreateOptionsMenu(menu);
-        }
-
-        @Override
-        public boolean onOptionsItemSelected(MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.action_add_task:
-                    final EditText taskEditText = new EditText(this);
-                    AlertDialog dialog = new AlertDialog.Builder(this)
-                            .setTitle("Add a new task")
-                            .setMessage("What do you want to do next?")
-                            .setView(taskEditText)
-                            .setPositiveButton("Add", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    String task = String.valueOf(taskEditText.getText());
-                                    SQLiteDatabase db = mHelper.getWritableDatabase();
-                                    ContentValues values = new ContentValues();
-                                    values.put(TaskContract.TaskEntry.COL_TASK_TITLE, task);
-                                    db.insertWithOnConflict(TaskContract.TaskEntry.TABLE,
-                                            null,
-                                            values,
-                                            SQLiteDatabase.CONFLICT_REPLACE);
-                                    db.close();
-                                }
-                            })
-                            .setNegativeButton("Cancel", null)
-                            .create();
-                    dialog.show();
-                    updateUI();
-                    return true;
-
-                default:
-                    return super.onOptionsItemSelected(item);
-            }
-        }
-
         private void updateUI() {
-            ArrayList<String> taskList = new ArrayList<>();
-            SQLiteDatabase db = mHelper.getReadableDatabase();
-            Cursor cursor = db.query(TaskContract.TaskEntry.TABLE,
-                    new String[]{TaskContract.TaskEntry._ID, TaskContract.TaskEntry.COL_TASK_TITLE},
-                    null, null, null, null, null);
-            while (cursor.moveToNext()) {
-                int idx = cursor.getColumnIndex(TaskContract.TaskEntry.COL_TASK_TITLE);
-                taskList.add(cursor.getString(idx));
+            ArrayList<String> temp = new ArrayList<>();
+            // need to add reading from firebase
+            for (String x: todos) {
+                temp.add(x);
             }
 
             if (mAdapter == null) {
                 mAdapter = new ArrayAdapter<>(this,
                         R.layout.item_do,
                         R.id.task_title,
-                        taskList);
+                        temp);
                 mTaskListView.setAdapter(mAdapter);
             } else {
                 mAdapter.clear();
-                mAdapter.addAll(taskList);
+                mAdapter.addAll(temp);
                 mAdapter.notifyDataSetChanged();
             }
-
-            cursor.close();
-            db.close();
         }
     }
-
-
-//    TextView titlepage, subtitlepage, endpage;
-//
-//    RecyclerView ourdoes;
-//    ArrayList<MyDo> list;
-//    DoAdapter doAdapter;
-//
-//    @Override
-//    protected void onCreate(@Nullable Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_todos);
-//
-//        ourdoes = findViewById(R.id.ourdoes);
-//        ourdoes.setLayoutManager(new LinearLayoutManager(this));
-//        list = new ArrayList<MyDo>();
-//    }
-//    EditText txt;
-//    Button btn_add;
-//    ListView list;
-//    ScrollView test;
-//
-//    private ArrayList<String> todos = new ArrayList<>();
-//    private ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.item_does, todos);
-//
-//    @Override
-//    protected void onCreate(@Nullable Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_todo);
-//
-//        btn_add = (Button) findViewById(R.id.addTodo);
-//        txt = (EditText) findViewById(R.id.todoText);
-//        list = (ListView) findViewById(R.id.todos);
-//
-//        list.setAdapter(adapter);
-//        todos.add("First Item");
-//        todos.add("Second Item");
-
-//        btn_add.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                String todo = txt.getText().toString();
-//                txt.setText("");
-//                Toast.makeText(getApplicationContext(), "Todo added", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//      }

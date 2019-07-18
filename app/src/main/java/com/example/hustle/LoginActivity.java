@@ -14,11 +14,13 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class LoginActivity extends AppCompatActivity {
     Button button_login, button_register;
     EditText edit_username, edit_pw;
-    FirebaseAuth db;
+    static FirebaseDatabase db;
+    static FirebaseAuth auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +31,8 @@ public class LoginActivity extends AppCompatActivity {
         button_register = (Button) findViewById(R.id.button_toRegister);
         edit_username = (EditText) findViewById(R.id.edit_username);
         edit_pw = (EditText) findViewById(R.id.edit_password);
-        db = FirebaseAuth.getInstance();
+        auth = FirebaseAuth.getInstance();
+        db = FirebaseDatabase.getInstance();
 
         button_login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,7 +55,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void validate(String user, String pw) {
         try {
-            db.signInWithEmailAndPassword(user, pw).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            auth.signInWithEmailAndPassword(user, pw).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {

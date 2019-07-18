@@ -1,6 +1,5 @@
 package com.example.hustle;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -25,7 +24,7 @@ public class TimerActivity extends AppCompatActivity {
     long duration; // in ms
     static long totalTimeElapsed;
     long timeElapsed = 0;
-    Button button_start, button_stats, button_todo;
+    Button button_start;
     TextView timerDuration;
     ScheduledExecutorService timer;
     TimerTask tt;
@@ -70,22 +69,6 @@ public class TimerActivity extends AppCompatActivity {
                 }
             }
         });
-//        button_stats.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent nextIntent = new Intent(TimerActivity.this,
-//                        StatsActivity.class);
-//                startActivity(nextIntent);
-//            }
-//        });
-//        button_todo.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent nextIntent = new Intent(TimerActivity.this,
-//                        TodoActivity.class);
-//                startActivity(nextIntent);
-//            }
-//        });
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bottom_nav);
         navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -114,6 +97,7 @@ public class TimerActivity extends AppCompatActivity {
         button_start.setBackgroundResource(R.drawable.pause);
         isTicking = true;
         //button_start.setText("stop timer");
+        System.out.println("timer started");
         Toast.makeText(getApplicationContext(), "Timer started...", Toast.LENGTH_SHORT).show();
     }
 
