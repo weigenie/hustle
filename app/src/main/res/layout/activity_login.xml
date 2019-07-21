@@ -7,7 +7,7 @@
     android:background="#8FB2A8"
     tools:context=".MainActivity">
 
-    //HUSTLE logo Image View
+    <!--HUSTLE logo Image View-->
     <ImageView
         android:id="@+id/logo_imageview"
 
@@ -19,7 +19,7 @@
 
         android:src="@drawable/logo" />
 
-    //"CREATE A NEW ACCOUNT" Text View
+    <!--"CREATE A NEW ACCOUNT" Text View-->
     <TextView
         android:id="@+id/create_textview"
 
@@ -36,7 +36,7 @@
         android:textColor="#FFF"
         android:gravity="center" />
 
-    //"for the best experience with HUSTLE" Text View
+    <!--for the best experience with HUSTLE" Text View-->
     <TextView
         android:id="@+id/best_textview"
 
@@ -53,7 +53,7 @@
         android:textColor="#FFF"
         android:gravity="center" />
 
-    //Email Edit Text
+    <!--Email Edit Text-->
     <EditText
         android:id="@+id/edit_username"
 
@@ -81,7 +81,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    //Password Edit Text
+    <!--Password Edit Text-->
     <EditText
         android:id="@+id/edit_password"
 
@@ -110,49 +110,83 @@
         app:layout_constraintTop_toBottomOf="@+id/edit_username" />
 
 
-    //LOGIN button
+    <!--LOGIN button-->
     <Button
         android:id="@+id/button_login"
 
         android:layout_width="110dp"
         android:layout_height="35dp"
         android:layout_below="@+id/edit_password"
-        android:layout_toRightOf="@id/button_toRegister"
+        android:layout_alignParentStart="true"
 
-        android:layout_marginLeft="40dp"
-        android:layout_marginTop="40dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentEnd="true"
 
+        android:layout_alignParentRight="true"
+
+        android:layout_marginStart="154dp"
+        android:layout_marginLeft="154dp"
+        android:layout_marginTop="39dp"
+
+        android:layout_marginEnd="153dp"
+        android:layout_marginRight="153dp"
         android:background="#66FFFFFF"
-
-        android:text="Login"
-        android:textSize="20dp"
         android:fontFamily="@font/glacial_indifference_bold"
+        android:text="Login"
         android:textColor="#FFF"
-
+        android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edit_password" />
 
-    //REGISTER button
+    <!--REGISTER button-->
     <Button
         android:id="@+id/button_toRegister"
 
         android:layout_width="110dp"
         android:layout_height="35dp"
-        android:layout_below="@+id/edit_password"
 
-        android:layout_marginLeft="50dp"
+        android:layout_below="@+id/button_login"
+
+        android:layout_alignParentStart="true"
+
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginStart="153dp"
+
+        android:layout_marginLeft="153dp"
         android:layout_marginTop="40dp"
-
+        android:layout_marginEnd="148dp"
+        android:layout_marginRight="148dp"
         android:background="#66FFFFFF"
-
-        android:text="Register"
-        android:textSize="20dp"
         android:fontFamily="@font/glacial_indifference_bold"
+        android:text="Register"
         android:textColor="#FFF"
-
+        android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button_login" />
+
+    <!-- registration text -->
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/button_login"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginStart="154dp"
+        android:layout_marginLeft="154dp"
+        android:layout_marginEnd="146dp"
+        android:layout_marginRight="146dp"
+        android:layout_marginTop="17dp"
+        android:fontFamily="@font/glacial_indifference_regular"
+        android:gravity="center"
+        android:text="are you new?"
+        android:textColor="#FFF"
+        android:textSize="15dp" />
 </RelativeLayout>
