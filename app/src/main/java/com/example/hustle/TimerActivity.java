@@ -2,6 +2,7 @@ package com.example.hustle;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -13,25 +14,18 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import java.util.TimerTask;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-
-
 public class TimerActivity extends AppCompatActivity {
-
+//
     long duration; // in ms
     static long totalTimeElapsed;
     long timeElapsed = 0;
     Button button_start;
     TextView timerDuration;
-    ScheduledExecutorService timer;
-    TimerTask tt;
     boolean isTicking;
-
-//    DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
-
+    CountDownTimer timer;
+//
+////    DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
+//
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,21 +34,9 @@ public class TimerActivity extends AppCompatActivity {
         duration = 1510000;
         totalTimeElapsed = 10000;
         button_start = (Button) findViewById(R.id.button_timer);
-//        button_stats = (Button) findViewById(R.id.toStats);
-//        button_todo = (Button) findViewById(R.id.toTodo);
         timerDuration = (TextView) findViewById(R.id.text_duration);
         isTicking = false;
         render();
-
-        tt = new TimerTask() {
-            @Override
-            public void run() {
-                System.out.println("duration now: " + duration);
-                duration -= 1000;
-                timeElapsed ++;
-                render();
-            }
-        };
 
         button_start.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
@@ -92,23 +74,34 @@ public class TimerActivity extends AppCompatActivity {
     }
 
     private void startTimer() {
-        timer = Executors.newSingleThreadScheduledExecutor();
-        timer.scheduleAtFixedRate(tt, 0, 1000, TimeUnit.MILLISECONDS);
         button_start.setBackgroundResource(R.drawable.pause);
+        timer = new CountDownTimer(Long.valueOf(duration), 1000) {
+            @Override
+            public void onTick(long l) {
+                System.out.println("duration: " + duration);
+                duration -= 1000;
+                render();
+            }
+
+            @Override
+            public void onFinish() {
+                Toast.makeText(getApplicationContext(), "Done!!", Toast.LENGTH_SHORT).show();
+            }
+        }.start();
         isTicking = true;
-        //button_start.setText("stop timer");
-        System.out.println("timer started");
-        Toast.makeText(getApplicationContext(), "Timer started...", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), "Timer started", Toast.LENGTH_SHORT).show();
     }
 
     private void stopTimer() {
-        timer.shutdown();
-        isTicking = false;
         button_start.setBackgroundResource(R.drawable.play);
-        handleElapsedTime();
-        System.out.println("activity_timer stopped");
-        //button_start.setText("start timer");
-        Toast.makeText(getApplicationContext(), "Timer stopped", Toast.LENGTH_SHORT).show();
+        try {
+            timer.cancel();
+            Toast.makeText(getApplicationContext(), "Timer stopped", Toast.LENGTH_SHORT).show();
+            isTicking = false;
+            handleElapsedTime();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     private void render() {
@@ -123,3 +116,4 @@ public class TimerActivity extends AppCompatActivity {
         timeElapsed = 0;
     }
 }
+
