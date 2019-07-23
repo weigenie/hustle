@@ -1,18 +1,31 @@
 package com.example.hustle;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.content.res.TypedArray;
+import android.graphics.Canvas;
+import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.TypedValue;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -23,12 +36,14 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class TodoActivity extends AppCompatActivity {
 
     private FloatingActionButton add;
-    private ListView mTaskListView;
-    private ArrayAdapter<String> mAdapter;
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager layoutManager;
     ArrayList<String> todos;
     BottomNavigationView navigation;
     DatabaseReference fireDb;
@@ -39,7 +54,7 @@ public class TodoActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_todos);
+        setContentView(R.layout.activity_todo);
 
         initValues();
         initListeners();
@@ -47,11 +62,10 @@ public class TodoActivity extends AppCompatActivity {
     }
 
     private void initValues() {
-        todos = new ArrayList<>();
         add = (FloatingActionButton) findViewById(R.id.fab_add);
-        mTaskListView = (ListView) findViewById(R.id.list_todo);
         navigation = (BottomNavigationView) findViewById(R.id.bottom_nav);
 
+        todos = new ArrayList<>();
         auth = FirebaseAuth.getInstance();
         fireDb = LoginActivity.db.getReference("users").child(auth.getUid()).child("todos");
         childEventListener = new ChildEventListener() {
@@ -88,6 +102,15 @@ public class TodoActivity extends AppCompatActivity {
             }
         };
         user = new User(-10);
+
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerView_todo);
+        layoutManager = new LinearLayoutManager(getApplicationContext());
+        mAdapter = new MyAdapter(todos);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.addItemDecoration(new MyDividerItemDecoration(this,
+                LinearLayoutManager.VERTICAL, 16));
+        recyclerView.setAdapter(mAdapter);
     }
 
     private void initListeners() {
@@ -141,22 +164,127 @@ public class TodoActivity extends AppCompatActivity {
     }
 
     private void updateUI() {
-        ArrayList<String> temp = new ArrayList<>();
-        // need to add reading from firebase
-        for (String x: todos) {
-            temp.add(x);
-        }
+        mAdapter.notifyDataSetChanged();
+    }
+}
 
-        if (mAdapter == null) {
-            mAdapter = new ArrayAdapter<>(this,
-                    R.layout.item_do,
-                    R.id.task_title,
-                    temp);
-            mTaskListView.setAdapter(mAdapter);
-        } else {
-            mAdapter.clear();
-            mAdapter.addAll(temp);
-            mAdapter.notifyDataSetChanged();
+class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
+    private ArrayList<String> mDataset;
+
+    public static class MyViewHolder extends RecyclerView.ViewHolder {
+        public TextView title;
+        public MyViewHolder(View v) {
+            super(v);
+            title = (TextView) v.findViewById(R.id.task_title);
         }
+    }
+
+    public MyAdapter(ArrayList<String> myDataset) {
+        this.mDataset = myDataset;
+    }
+
+    @NonNull
+    @Override
+    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View v = (View) LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.item_do, parent, false);
+        MyViewHolder vh = new MyViewHolder(v);
+        return vh;
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+        holder.title.setText(mDataset.get(position));
+    }
+
+    @Override
+    public int getItemCount() {
+        return mDataset.size();
+    }
+}
+
+class MyDividerItemDecoration extends RecyclerView.ItemDecoration {
+    private static final int[] ATTRS = new int[]{
+            android.R.attr.listDivider
+    };
+
+    public static final int HORIZONTAL_LIST = LinearLayoutManager.HORIZONTAL;
+
+    public static final int VERTICAL_LIST = LinearLayoutManager.VERTICAL;
+
+    private Drawable mDivider;
+    private int mOrientation;
+    private Context context;
+    private int margin;
+
+    public MyDividerItemDecoration(Context context, int orientation, int margin) {
+        this.context = context;
+        this.margin = margin;
+        final TypedArray a = context.obtainStyledAttributes(ATTRS);
+        mDivider = a.getDrawable(0);
+        a.recycle();
+        setOrientation(orientation);
+    }
+
+    public void setOrientation(int orientation) {
+        if (orientation != HORIZONTAL_LIST && orientation != VERTICAL_LIST) {
+            throw new IllegalArgumentException("invalid orientation");
+        }
+        mOrientation = orientation;
+    }
+
+    @Override
+    public void onDrawOver(Canvas c, RecyclerView parent, RecyclerView.State state) {
+        if (mOrientation == VERTICAL_LIST) {
+            drawVertical(c, parent);
+        } else {
+            drawHorizontal(c, parent);
+        }
+    }
+
+    public void drawVertical(Canvas c, RecyclerView parent) {
+        final int left = parent.getPaddingLeft();
+        final int right = parent.getWidth() - parent.getPaddingRight();
+
+        final int childCount = parent.getChildCount();
+        for (int i = 0; i < childCount; i++) {
+            final View child = parent.getChildAt(i);
+            final RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child
+                    .getLayoutParams();
+            final int top = child.getBottom() + params.bottomMargin;
+            final int bottom = top + mDivider.getIntrinsicHeight();
+            mDivider.setBounds(left + dpToPx(margin), top, right - dpToPx(margin), bottom);
+            mDivider.draw(c);
+        }
+    }
+
+    public void drawHorizontal(Canvas c, RecyclerView parent) {
+        final int top = parent.getPaddingTop();
+        final int bottom = parent.getHeight() - parent.getPaddingBottom();
+
+        final int childCount = parent.getChildCount();
+        for (int i = 0; i < childCount; i++) {
+            final View child = parent.getChildAt(i);
+            final RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child
+                    .getLayoutParams();
+            final int left = child.getRight() + params.rightMargin;
+            final int right = left + mDivider.getIntrinsicHeight();
+            mDivider.setBounds(left, top + dpToPx(margin), right, bottom - dpToPx(margin));
+            mDivider.draw(c);
+        }
+    }
+
+    @Override
+    public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+        if (mOrientation == VERTICAL_LIST) {
+            outRect.set(0, 0, 0, mDivider.getIntrinsicHeight());
+        } else {
+            outRect.set(0, 0, mDivider.getIntrinsicWidth(), 0);
+        }
+    }
+
+    private int dpToPx(int dp) {
+        Resources r = context.getResources();
+        return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics()));
     }
 }
