@@ -13,46 +13,59 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class TimerActivity extends AppCompatActivity {
-//
-    long duration; // in ms
-    static long totalTimeElapsed;
+
+    long duration;
     long timeElapsed = 0;
+    boolean isTicking;
     Button button_start;
     TextView timerDuration;
-    boolean isTicking;
     CountDownTimer timer;
-//
-////    DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
-//
+    BottomNavigationView navigation;
+    DatabaseReference dbRef;
+    FirebaseAuth auth;
+    User user;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timer);
 
-        duration = 1510000;
-        totalTimeElapsed = 10000;
+        initValues();
+        initListeners();
+
+        render();
+    }
+
+    private void initValues() {
+        duration = 1500000;
         button_start = (Button) findViewById(R.id.button_timer);
         timerDuration = (TextView) findViewById(R.id.text_duration);
         isTicking = false;
-        render();
+        auth = FirebaseAuth.getInstance();
+        dbRef = FirebaseDatabase.getInstance().getReference("users");
+        navigation = (BottomNavigationView) findViewById(R.id.bottom_nav);
+        user = new User(-1);
+    }
 
+    private void initListeners() {
         button_start.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                try {
-                    if (!isTicking) {
-                        startTimer();
-                    } else {
-                        stopTimer();
-                    }
-                } catch (Exception e) {
-                    System.out.println(e.getMessage());
+                if (!isTicking) {
+                    startTimer();
+                } else {
+                    stopTimer();
                 }
             }
         });
 
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bottom_nav);
         navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -71,6 +84,24 @@ public class TimerActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+        dbRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                try {
+                    user = dataSnapshot.child(auth.getUid()).getValue(User.class);
+                    System.out.println("user current duration: " + user.duration);
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                    dbRef.child(auth.getUid()).setValue(new User(-1));
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println(databaseError.getMessage());
+            }
+        });
     }
 
     private void startTimer() {
@@ -80,6 +111,7 @@ public class TimerActivity extends AppCompatActivity {
             public void onTick(long l) {
                 System.out.println("duration: " + duration);
                 duration -= 1000;
+                timeElapsed++;
                 render();
             }
 
@@ -112,8 +144,7 @@ public class TimerActivity extends AppCompatActivity {
     }
 
     private void handleElapsedTime() {
-        totalTimeElapsed += timeElapsed;
+        dbRef.child(auth.getUid()).setValue(user.addTime(timeElapsed));
         timeElapsed = 0;
     }
 }
-

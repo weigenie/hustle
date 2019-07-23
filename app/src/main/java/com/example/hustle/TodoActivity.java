@@ -27,6 +27,7 @@ public class TodoActivity extends AppCompatActivity {
         private ListView mTaskListView;
         ArrayList<String> todos = new ArrayList<>();
         private ArrayAdapter<String> mAdapter;
+        BottomNavigationView navigation;
         DatabaseReference fireDb;
         FirebaseAuth auth;
 
@@ -35,11 +36,38 @@ public class TodoActivity extends AppCompatActivity {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_todos);
 
+            initValues();
+            initListeners();
+            updateUI();
+        }
+
+        private void initValues() {
             add = (FloatingActionButton) findViewById(R.id.fab_add);
             mTaskListView = (ListView) findViewById(R.id.list_todo);
-
             fireDb = LoginActivity.db.getReference("users");
             auth = FirebaseAuth.getInstance();
+            navigation = (BottomNavigationView) findViewById(R.id.bottom_nav);
+        }
+
+        private void initListeners() {
+            navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+                @Override
+                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                    switch (item.getItemId()) {
+                        case R.id.nav_timer:
+                            Intent a = new Intent(TodoActivity.this,TimerActivity.class);
+                            startActivity(a);
+                            break;
+                        case R.id.nav_todo:
+                            break;
+                        case R.id.nav_profile:
+                            Intent b = new Intent(TodoActivity.this,StatsActivity.class);
+                            startActivity(b);
+                            break;
+                    }
+                    return false;
+                }
+            });
 
             add.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -73,27 +101,6 @@ public class TodoActivity extends AppCompatActivity {
                     } catch (Exception e) {
                         System.out.println(e.getMessage());
                     }
-                }
-            });
-            updateUI();
-
-            BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bottom_nav);
-            navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-                @Override
-                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                    switch (item.getItemId()) {
-                        case R.id.nav_timer:
-                            Intent a = new Intent(TodoActivity.this,TimerActivity.class);
-                            startActivity(a);
-                            break;
-                        case R.id.nav_todo:
-                            break;
-                        case R.id.nav_profile:
-                            Intent b = new Intent(TodoActivity.this,StatsActivity.class);
-                            startActivity(b);
-                            break;
-                    }
-                    return false;
                 }
             });
         }
