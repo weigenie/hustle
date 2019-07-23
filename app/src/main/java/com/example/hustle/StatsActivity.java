@@ -74,10 +74,9 @@ public class StatsActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 try {
                     user = dataSnapshot.child(auth.getUid()).getValue(User.class);
-                    System.out.println("user current duration: " + user.duration);
+                    render();
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
-                    ref.child(auth.getUid()).setValue(new User(-1));
                 }
             }
 

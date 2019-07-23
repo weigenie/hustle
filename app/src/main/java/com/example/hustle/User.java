@@ -17,4 +17,9 @@ public class User {
     public User addTime(long time) {
         return new User(this.duration + time);
     }
+
+    @Override
+    public String toString() {
+        return "USER DURATION: " + duration;
+    }
 }
