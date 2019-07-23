@@ -49,9 +49,10 @@ public class TimerActivity extends AppCompatActivity {
         button_start = (Button) findViewById(R.id.button_timer);
         timerDuration = (TextView) findViewById(R.id.text_duration);
         isTicking = false;
+        navigation = (BottomNavigationView) findViewById(R.id.bottom_nav);
+
         auth = FirebaseAuth.getInstance();
         dbRef = FirebaseDatabase.getInstance().getReference("users");
-        navigation = (BottomNavigationView) findViewById(R.id.bottom_nav);
         user = new User(-1);
     }
 
