@@ -73,7 +73,7 @@ public class TodoActivity extends AppCompatActivity {
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 System.out.println("child event added");
                 String newTodo = dataSnapshot.getValue(String.class);
-                todos.add(newTodo);
+                todos.add(0, newTodo);
             }
 
             @Override

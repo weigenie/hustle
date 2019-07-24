@@ -90,11 +90,11 @@ public class TimerActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 try {
-                    user = dataSnapshot.child(auth.getUid()).getValue(User.class);
+                    user = dataSnapshot.child(auth.getUid()).child("timer").getValue(User.class);
                     System.out.println("user current duration: " + user.duration);
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
-                    dbRef.child(auth.getUid()).setValue(new User(-1));
+                    dbRef.child(auth.getUid()).child("timer").setValue(new User(0));
                 }
             }
 
@@ -145,7 +145,7 @@ public class TimerActivity extends AppCompatActivity {
     }
 
     private void handleElapsedTime() {
-        dbRef.child(auth.getUid()).setValue(user.addTime(timeElapsed));
+        dbRef.child(auth.getUid()).child("timer").setValue(user.addTime(timeElapsed));
         timeElapsed = 0;
     }
 }
