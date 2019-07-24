@@ -15,6 +15,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Arrays;
@@ -32,26 +33,22 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-//
-//        List<AuthUI.IdpConfig> providers = Arrays.asList(
-//                new AuthUI.IdpConfig.EmailBuilder().build(),
-//                new AuthUI.IdpConfig.FacebookBuilder().build());
-//
-//        startActivityForResult(
-//            AuthUI.getInstance()
-//                .createSignInIntentBuilder()
-//                .setAvailableProviders(providers)
-//                .build(),
-//        RC_SIGN_IN);
+        checkLoggedIn();
 
+        initValues();
+        initListeners();
+    }
 
+    private void initValues() {
         button_login = (Button) findViewById(R.id.button_login);
         button_register = (Button) findViewById(R.id.button_toRegister);
         edit_username = (EditText) findViewById(R.id.edit_username);
         edit_pw = (EditText) findViewById(R.id.edit_password);
         auth = FirebaseAuth.getInstance();
         db = FirebaseDatabase.getInstance();
+    }
 
+    private void initListeners() {
         button_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,6 +68,16 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    private void checkLoggedIn() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        if (user != null) {
+            Intent i = new Intent(LoginActivity.this, TimerActivity.class);
+            startActivity(i);
+            LoginActivity.this.finish();
+        }
+    }
+
     private void validate(String user, String pw) {
         try {
             auth.signInWithEmailAndPassword(user, pw).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -79,6 +86,7 @@ public class LoginActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         Intent nextIntent = new Intent(LoginActivity.this, TimerActivity.class);
                         startActivity(nextIntent);
+                        LoginActivity.this.finish();
                     } else {
                         Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                     }
