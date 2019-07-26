@@ -48,6 +48,7 @@ public class RegisterActivity extends AppCompatActivity {
                                     Intent intent = new Intent(RegisterActivity.this,
                                             LoginActivity.class);
                                     startActivity(intent);
+                                    RegisterActivity.this.finish();
                                 } else {
                                     try {
                                         throw task.getException();
