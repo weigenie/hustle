@@ -31,6 +31,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
@@ -77,9 +80,9 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
     long timeElapsed = 0;
     String date;
     BottomNavigationView bottomNavigation;
-    long totalTime;
-    long loggedTime;
+    Long totalTime, loggedTime, stats_total, stats_today;
 
+    DatabaseReference statsRef;
     DatabaseReference dbRef;
     FirebaseAuth auth;
 
@@ -94,10 +97,11 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
 
     private void initValues() {
         auth = FirebaseAuth.getInstance();
+        statsRef = FirebaseDatabase.getInstance().getReference("analytics");
         dbRef = FirebaseDatabase.getInstance().getReference("users")
                 .child(auth.getUid()).child("timer");
         bottomNavigation = (BottomNavigationView) findViewById(R.id.bottom_nav);
-        date = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
+        date = ZonedDateTime.now(ZoneId.of("UTC+08:00")).toLocalDate().toString();
 
         progressBarCircle = (ProgressBar) findViewById(R.id.progressBarCircle);
         editTextMinute = (EditText) findViewById(R.id.editTextMinute);
@@ -138,12 +142,15 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
             }
         });
 
+
         dbRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 try {
                     totalTime = dataSnapshot.child("total").getValue(Long.class);
+                    if (totalTime == null) totalTime = Long.valueOf(0);
                     loggedTime = dataSnapshot.child(date).getValue(Long.class);
+                    if (loggedTime == null) loggedTime = Long.valueOf(0);
                     System.out.println("loggedTime current duration: " + loggedTime);
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
@@ -153,7 +160,22 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                System.out.println(databaseError.getMessage());
+                Log.e(TAG, databaseError.getMessage());
+            }
+        });
+
+        statsRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                stats_today = dataSnapshot.child(date).getValue(Long.class);
+                if (stats_today == null) stats_today = Long.valueOf(0);
+                stats_total = dataSnapshot.child("total").getValue(Long.class);
+                if (stats_total == null) stats_total = Long.valueOf(0);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.e(TAG, databaseError.getMessage());
             }
         });
     }
@@ -334,6 +356,9 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
 
     private void handleElapsedTime() {
         Log.i(TAG, "handleElapsedTime: adding " + timeElapsed);
+        statsRef.child(date).setValue(stats_today + timeElapsed / 2);
+        statsRef.child("total").setValue(stats_total + timeElapsed / 2);
+
         dbRef.child(date).setValue(loggedTime + timeElapsed / 2);
         dbRef.child("total").setValue(totalTime + timeElapsed / 2);
         timeElapsed = 0;

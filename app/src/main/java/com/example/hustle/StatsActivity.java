@@ -2,6 +2,7 @@ package com.example.hustle;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
@@ -19,14 +20,19 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+
 public class StatsActivity extends AppCompatActivity {
 
-    TextView text;
-    Long totalTime;
+    private String TAG = "StatsActivity";
+    TextView txt_my_total, txt_my_today, txt_all_total, txt_all_today, txt_all_avg;
+    Long my_total, my_today, all_total, all_today, total_users;
+    String date;
     BottomNavigationView navigation;
     DatabaseReference ref;
+    DatabaseReference statsRef;
     FirebaseAuth auth;
-    LoggedTime loggedTime;
     ImageButton logOut;
 
     @Override
@@ -36,18 +42,27 @@ public class StatsActivity extends AppCompatActivity {
 
         initValues();
         initListeners();
-
-        render();
     }
 
     private void initValues() {
-        totalTime = Long.valueOf(-1);
-        text =  (TextView) findViewById(R.id.text_durationDisplay);
+        my_today = Long.valueOf(0);
+        my_total= Long.valueOf(0);
+        all_total= Long.valueOf(0);
+        all_today= Long.valueOf(0);
+        total_users = Long.valueOf(1);
+        txt_my_total =  (TextView) findViewById(R.id.txt_my_total);
+        txt_my_today = (TextView) findViewById(R.id.txt_my_today);
+        txt_all_total = (TextView) findViewById(R.id.txt_all_total);
+        txt_all_today = (TextView) findViewById(R.id.txt_all_today);
+        txt_all_avg = (TextView) findViewById(R.id.txt_all_avg);
         navigation = (BottomNavigationView) findViewById(R.id.bottom_nav);
         logOut = (ImageButton) findViewById(R.id.btn_signout);
+        date = ZonedDateTime.now(ZoneId.of("UTC+08:00")).toLocalDate().toString();
 
         auth = FirebaseAuth.getInstance();
-        ref = FirebaseDatabase.getInstance().getReference();
+        ref = FirebaseDatabase.getInstance().getReference("users").child(auth.getUid())
+                .child("timer");
+        statsRef = FirebaseDatabase.getInstance().getReference("analytics");
     }
 
     private void initListeners() {
@@ -76,8 +91,10 @@ public class StatsActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 try {
-                    totalTime = dataSnapshot.child("users").child(auth.getUid()).child("timer")
-                            .child("total").getValue(Long.class);
+                    my_total = dataSnapshot.child("total").getValue(Long.class);
+                    my_today = dataSnapshot.child(date).getValue(Long.class);
+                    Log.i(TAG, "ref added: \nmy_total: " + my_total +
+                            "\nmy_today: " + my_today);
                     render();
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
@@ -86,7 +103,26 @@ public class StatsActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                System.out.println(databaseError.getMessage());
+                Log.e(TAG, "ref onCancelled called", databaseError.toException());
+            }
+        });
+
+        statsRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                all_today = dataSnapshot.child(date).getValue(Long.class);
+                all_total = dataSnapshot.child("total").getValue(Long.class);
+                total_users = dataSnapshot.child("total_users").getValue(Long.class);
+                Log.i(TAG, "statsRef added: " +
+                        "\nall_today: " + all_today +
+                        "\nall_total: " + all_total +
+                        "\ntotal_users: " + total_users);
+                render();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.e(TAG, "statsRef onCancelled called", databaseError.toException());
             }
         });
 
@@ -99,11 +135,26 @@ public class StatsActivity extends AppCompatActivity {
 
     }
 
-    private void render() {
-        long totalMin = totalTime/60;
+    private String processTime(Long seconds) {
+        long totalMin = seconds / 60;
         long hours = totalMin / 60;
         long minutes = totalMin - hours * 60;
-        text.setText(String.format("%dH %02dMINS", hours, minutes));
+        Log.i("processTime", "seconds: " + seconds +
+                "\nhours: " + hours +
+                "\nminutes: " + minutes);
+        return String.format("%dH %02dMINS", hours, minutes);
+    }
+
+    private void render() {
+        txt_my_total.setText(processTime(my_total));
+        txt_my_today.setText(processTime(my_today));
+        txt_all_total.setText(processTime(all_total));
+        txt_all_today.setText(processTime(all_today));
+        if (!total_users.equals(Long.valueOf(0))) {
+            txt_all_avg.setText(processTime(all_today / total_users));
+        } else {
+            txt_all_avg.setText("-1");
+        }
     }
 
     private void logOut() {

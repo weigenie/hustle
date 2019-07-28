@@ -74,7 +74,7 @@ public class TodoActivity extends AppCompatActivity {
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 String newTodo = dataSnapshot.getValue(String.class);
                 String newID = dataSnapshot.getKey();
-                Log.i(TAG, "adding child...\ntext: " + newTodo + "\nID: " + newID);
+                Log.i(TAG, "adding child...\ntxt_my_total: " + newTodo + "\nID: " + newID);
                 todos.add(0, new Todo(newID, newTodo));
                 TodoActivity.this.updateUI();
             }
