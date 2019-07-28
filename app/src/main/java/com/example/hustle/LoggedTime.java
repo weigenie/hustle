@@ -1,21 +1,18 @@
 package com.example.hustle;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class User {
+public class LoggedTime {
     long duration;
 
-    User(){
+    LoggedTime(){
         duration = -1000;
     }
 
-    User(long duration) {
+    LoggedTime(long duration) {
         this.duration = duration;
     }
 
-    public User addTime(long time) {
-        return new User(this.duration + time);
+    public LoggedTime addTime(long time) {
+        return new LoggedTime(this.duration + time);
     }
 
     @Override

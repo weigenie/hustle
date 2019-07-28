@@ -101,4 +101,19 @@
         app:itemTextColor="#FFF"
         app:menu="@menu/bottom_navigation" />
 
+    <ImageButton
+        android:id="@+id/btn_signout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/bottom_nav"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginEnd="17dp"
+        android:layout_marginRight="17dp"
+        android:layout_marginBottom="181dp"
+        app:srcCompat="@drawable/profile"
+        android:contentDescription="TODO"
+        tools:ignore="VectorDrawableCompat" />
+
+
 </RelativeLayout>

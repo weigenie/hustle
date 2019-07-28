@@ -14,16 +14,13 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -36,10 +33,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class TodoActivity extends AppCompatActivity {
 
+    private String TAG = "TodoActivity";
     private FloatingActionButton add;
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -48,7 +45,6 @@ public class TodoActivity extends AppCompatActivity {
     BottomNavigationView navigation;
     DatabaseReference fireDb;
     FirebaseAuth auth;
-    User user;
     ChildEventListener childEventListener;
 
     @Override
@@ -58,7 +54,6 @@ public class TodoActivity extends AppCompatActivity {
 
         initValues();
         initListeners();
-        updateUI();
     }
 
     private void initValues() {
@@ -74,6 +69,7 @@ public class TodoActivity extends AppCompatActivity {
                 System.out.println("child event added");
                 String newTodo = dataSnapshot.getValue(String.class);
                 todos.add(0, newTodo);
+                TodoActivity.this.updateUI();
             }
 
             @Override
@@ -101,7 +97,6 @@ public class TodoActivity extends AppCompatActivity {
                 System.out.println("child event cancelled");
             }
         };
-        user = new User(-10);
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView_todo);
         layoutManager = new LinearLayoutManager(getApplicationContext());
@@ -153,7 +148,13 @@ public class TodoActivity extends AppCompatActivity {
                             .setNegativeButton("Cancel", null)
                             .create();
                     dialog.show();
-                    updateUI();
+                    dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                        @Override
+                        public void onDismiss(DialogInterface dialogInterface) {
+                            System.out.println("dialog dismissed");
+                            updateUI();
+                        }
+                    });
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
                 }

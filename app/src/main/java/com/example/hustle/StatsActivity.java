@@ -1,9 +1,10 @@
 package com.example.hustle;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -18,16 +19,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.Timer;
-
 public class StatsActivity extends AppCompatActivity {
 
     TextView text;
-    static Long elapsed;
+    Long totalTime;
     BottomNavigationView navigation;
     DatabaseReference ref;
     FirebaseAuth auth;
-    User user;
+    LoggedTime loggedTime;
+    ImageButton logOut;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,12 +41,13 @@ public class StatsActivity extends AppCompatActivity {
     }
 
     private void initValues() {
-        elapsed = Long.valueOf(-1);
+        totalTime = Long.valueOf(-1);
         text =  (TextView) findViewById(R.id.text_durationDisplay);
         navigation = (BottomNavigationView) findViewById(R.id.bottom_nav);
+        logOut = (ImageButton) findViewById(R.id.btn_signout);
+
         auth = FirebaseAuth.getInstance();
-        ref = FirebaseDatabase.getInstance().getReference("users");
-        user = new User(-1);
+        ref = FirebaseDatabase.getInstance().getReference();
     }
 
     private void initListeners() {
@@ -57,10 +58,12 @@ public class StatsActivity extends AppCompatActivity {
                     case R.id.nav_timer:
                         Intent a = new Intent(StatsActivity.this,TimerActivity.class);
                         startActivity(a);
+                        StatsActivity.this.finish();
                         break;
                     case R.id.nav_todo:
                         Intent b = new Intent(StatsActivity.this,TodoActivity.class);
                         startActivity(b);
+                        StatsActivity.this.finish();
                         break;
                     case R.id.nav_profile:
                         break;
@@ -73,7 +76,8 @@ public class StatsActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 try {
-                    user = dataSnapshot.child(auth.getUid()).child("timer").getValue(User.class);
+                    totalTime = dataSnapshot.child("users").child(auth.getUid()).child("timer")
+                            .child("total").getValue(Long.class);
                     render();
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
@@ -85,12 +89,27 @@ public class StatsActivity extends AppCompatActivity {
                 System.out.println(databaseError.getMessage());
             }
         });
+
+        logOut.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                StatsActivity.this.logOut();
+            }
+        });
+
     }
 
     private void render() {
-        elapsed = user.duration;
-        long hours = elapsed.longValue() / 60;
-        long minutes = elapsed.longValue() - hours * 60;
+        long totalMin = totalTime/60;
+        long hours = totalMin / 60;
+        long minutes = totalMin - hours * 60;
         text.setText(String.format("%dH %02dMINS", hours, minutes));
+    }
+
+    private void logOut() {
+        auth.signOut();
+        Intent i = new Intent(StatsActivity.this, LoginActivity.class);
+        startActivity(i);
+        this.finish();
     }
 }

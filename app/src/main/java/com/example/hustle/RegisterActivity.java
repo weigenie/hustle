@@ -53,7 +53,7 @@ public class RegisterActivity extends AppCompatActivity {
                                         throw task.getException();
                                     } catch (FirebaseAuthUserCollisionException e) {
                                         Toast.makeText(getApplicationContext(),
-                                                "User already exists", Toast.LENGTH_SHORT).show();
+                                                "LoggedTime already exists", Toast.LENGTH_SHORT).show();
                                     } catch (Exception e) {
                                         Toast.makeText(getApplicationContext(),
                                                 task.getException().getMessage(), Toast.LENGTH_SHORT).show();

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background= "@drawable/login_background"
-    tools:context=".MainActivity">
+    tools:context=".LoginActivity">
 
     <!--HUSTLE logo Image View-->
     <ImageView
@@ -171,6 +171,19 @@
         android:fontFamily="@font/glacial_indifference_regular"
         android:textColor="#FFF"
         android:gravity="center" />
+
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/fb_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/button_toRegister"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginStart="167dp"
+        android:layout_marginTop="55dp"
+        android:layout_marginEnd="156dp"
+        android:layout_marginBottom="30dp" />
 
 
 </RelativeLayout>

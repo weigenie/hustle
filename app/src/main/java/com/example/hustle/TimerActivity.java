@@ -30,12 +30,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 public class TimerActivity extends AppCompatActivity implements View.OnClickListener {
 
     private String TAG = "TimerActivity";
-    long timeCountInMS = 1*60000;
+    long timeCountInMS = 60000;
 
     enum TimerStatus {
         START,
@@ -72,11 +75,13 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
     Vibrator vibrator;
 
     long timeElapsed = 0;
+    String date;
     BottomNavigationView bottomNavigation;
+    long totalTime;
+    long loggedTime;
 
     DatabaseReference dbRef;
     FirebaseAuth auth;
-    User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,9 +94,10 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
 
     private void initValues() {
         auth = FirebaseAuth.getInstance();
-        dbRef = FirebaseDatabase.getInstance().getReference("users");
-        user = new User(-1);
+        dbRef = FirebaseDatabase.getInstance().getReference("users")
+                .child(auth.getUid()).child("timer");
         bottomNavigation = (BottomNavigationView) findViewById(R.id.bottom_nav);
+        date = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
 
         progressBarCircle = (ProgressBar) findViewById(R.id.progressBarCircle);
         editTextMinute = (EditText) findViewById(R.id.editTextMinute);
@@ -106,7 +112,6 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
 
         /*Vibrator*/
         vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-
     }
 
     private void initListeners () {
@@ -135,13 +140,14 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
 
         dbRef.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 try {
-                    user = dataSnapshot.child(auth.getUid()).child("timer").getValue(User.class);
-                    System.out.println("user current duration: " + user.duration);
+                    totalTime = dataSnapshot.child("total").getValue(Long.class);
+                    loggedTime = dataSnapshot.child(date).getValue(Long.class);
+                    System.out.println("loggedTime current duration: " + loggedTime);
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
-                    dbRef.child(auth.getUid()).child("timer").setValue(new User(0));
+                    dbRef.child(date).setValue(0);
                 }
             }
 
@@ -327,9 +333,9 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void handleElapsedTime() {
-        System.out.println("handleElapsedTime: adding " + timeElapsed);
-        System.out.println("auth: " + auth .getUid());
-        dbRef.child(auth.getUid()).child("timer").setValue(user.addTime(timeElapsed / 2));
+        Log.i(TAG, "handleElapsedTime: adding " + timeElapsed);
+        dbRef.child(date).setValue(loggedTime + timeElapsed / 2);
+        dbRef.child("total").setValue(totalTime + timeElapsed / 2);
         timeElapsed = 0;
     }
 }
