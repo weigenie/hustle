@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
+    android:gravity="center">
+
+    <!--Pop-up Card when timer starts-->
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="15dp"
+        app:cardBackgroundColor="#f2e3c9"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="25dp"
+            android:layout_marginBottom="25dp">
+
+            <TextView
+                android:id="@+id/ready_textView"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+
+                android:textAlignment="center"
+                android:textSize="30dp"
+                android:textColor="#444444"
+
+                android:fontFamily="@font/determination_monoweb"
+                android:text="ARE YOU READY?"/>
+
+            <TextView
+                android:id="@+id/startTimerMsg_textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="10dp"
+
+                android:textAlignment="center"
+                android:textSize="20dp"
+                android:textColor="#444444"
+
+                android:fontFamily="@font/determination_monoweb"
+                android:text= "Stay focused and do not leave the app! Otherwise the timer will end."/>
+
+            <Button
+                android:id="@+id/button_gotit"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_gravity="center"
+
+                android:background="@drawable/timer_popup_button"
+
+                android:textAlignment="center"
+                android:textSize="25dp"
+                android:textColor="#444444"
+
+                android:fontFamily="@font/determination_monoweb"
+                android:text="GOT IT"
+                />
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>

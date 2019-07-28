@@ -4,22 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#8FB2A8"
+    android:background= "@drawable/login_background"
     tools:context=".MainActivity">
 
     <!--HUSTLE logo Image View-->
     <ImageView
         android:id="@+id/logo_imageview"
 
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
 
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="40dp"
         android:layout_centerHorizontal="true"
 
         android:src="@drawable/logo" />
 
-    <!--"CREATE A NEW ACCOUNT" Text View-->
+    <!--"TIME TO HUSTLE" Text View-->
     <TextView
         android:id="@+id/create_textview"
 
@@ -30,7 +30,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="1dp"
 
-        android:text="CREATE A NEW ACCOUNT"
+        android:text="TIME TO HUSTLE"
         android:textSize="25dp"
         android:fontFamily="@font/glacial_indifference_bold"
         android:textColor="#FFF"
@@ -40,14 +40,14 @@
     <TextView
         android:id="@+id/best_textview"
 
-        android:layout_width="232dp"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/create_textview"
 
         android:layout_centerHorizontal="true"
         android:layout_marginTop="5dp"
 
-        android:text="for the best experience with HUSTLE."
+        android:text="create an account for the best experience with HUSTLE."
         android:textSize="15dp"
         android:fontFamily="@font/glacial_indifference_regular"
         android:textColor="#FFF"
@@ -57,8 +57,8 @@
     <EditText
         android:id="@+id/edit_username"
 
-        android:layout_width="290dp"
-        android:layout_height="wrap_content"
+        android:layout_width="300dp"
+        android:layout_height="45dp"
         android:layout_below="@+id/best_textview"
 
         android:layout_centerHorizontal="true"
@@ -66,12 +66,12 @@
 
         android:background="@drawable/login_box"
 
-        android:paddingLeft="10dp"
+        android:paddingLeft="20dp"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
 
         android:ems="15"
-        android:hint="email"
+        android:hint="Email"
         android:inputType="textPersonName"
         android:fontFamily="@font/glacial_indifference_regular"
         android:textColor="#6D6D6D"
@@ -85,8 +85,8 @@
     <EditText
         android:id="@+id/edit_password"
 
-        android:layout_width="290dp"
-        android:layout_height="wrap_content"
+        android:layout_width="300dp"
+        android:layout_height="45dp"
         android:layout_below="@+id/edit_username"
 
         android:layout_centerHorizontal="true"
@@ -94,12 +94,12 @@
 
         android:background="@drawable/login_box"
 
-        android:paddingLeft="10dp"
+        android:paddingLeft="20dp"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
 
         android:ems="15"
-        android:hint="password"
+        android:hint="Password"
         android:inputType="textPassword"
         android:fontFamily="@font/glacial_indifference_regular"
         android:textColor="#6D6D6D"
@@ -114,79 +114,63 @@
     <Button
         android:id="@+id/button_login"
 
-        android:layout_width="110dp"
-        android:layout_height="35dp"
+        android:layout_width="300dp"
+        android:layout_height="45dp"
         android:layout_below="@+id/edit_password"
-        android:layout_alignParentStart="true"
 
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentEnd="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
 
-        android:layout_alignParentRight="true"
+        android:background="@drawable/login_button"
 
-        android:layout_marginStart="154dp"
-        android:layout_marginLeft="154dp"
-        android:layout_marginTop="39dp"
-
-        android:layout_marginEnd="153dp"
-        android:layout_marginRight="153dp"
-        android:background="#66FFFFFF"
         android:fontFamily="@font/glacial_indifference_bold"
-        android:text="Login"
+        android:paddingLeft="10dp"
+        android:paddingTop="1dp"
+        android:paddingBottom="1dp"
+        android:text="L O G I N"
         android:textColor="#FFF"
-        android:textSize="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textSize="15dp"
+
         app:layout_constraintTop_toBottomOf="@+id/edit_password" />
 
-    <!--REGISTER button-->
+    <!--SIGN UP button-->
     <Button
         android:id="@+id/button_toRegister"
 
-        android:layout_width="110dp"
-        android:layout_height="35dp"
-
-        android:layout_below="@+id/button_login"
-
-        android:layout_alignParentStart="true"
-
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginStart="153dp"
-
-        android:layout_marginLeft="153dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="148dp"
-        android:layout_marginRight="148dp"
-        android:background="#66FFFFFF"
-        android:fontFamily="@font/glacial_indifference_bold"
-        android:text="Register"
-        android:textColor="#FFF"
-        android:textSize="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_login" />
-
-    <!-- registration text -->
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/button_login"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginStart="154dp"
-        android:layout_marginLeft="154dp"
-        android:layout_marginEnd="146dp"
-        android:layout_marginRight="146dp"
-        android:layout_marginTop="17dp"
-        android:fontFamily="@font/glacial_indifference_regular"
-        android:gravity="center"
-        android:text="are you new?"
+        android:layout_below="@+id/account_textView"
+
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+
+        android:background="@drawable/sign_button"
+
+        android:fontFamily="@font/glacial_indifference_bold"
+        android:paddingTop="10dp"
+
+        android:paddingBottom="10dp"
+        android:text="S I G N  U P"
         android:textColor="#FFF"
         android:textSize="15dp" />
+
+
+    <!-- "Don't have an account?" text -->
+    <TextView
+        android:id="@+id/account_textView"
+
+        android:layout_width="232dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/button_login"
+
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="45dp"
+
+        android:text="Don't have an account?"
+        android:textSize="15dp"
+        android:fontFamily="@font/glacial_indifference_regular"
+        android:textColor="#FFF"
+        android:gravity="center" />
+
+
 </RelativeLayout>

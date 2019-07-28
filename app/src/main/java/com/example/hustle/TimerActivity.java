@@ -1,11 +1,20 @@
 package com.example.hustle;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,17 +29,51 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class TimerActivity extends AppCompatActivity {
+import java.util.concurrent.TimeUnit;
 
-    long duration;
+public class TimerActivity extends AppCompatActivity implements View.OnClickListener {
+
+    long timeCountInMS = 1*60000;
+
+    enum TimerStatus {
+        START,
+        STOP
+    }
+    TimerStatus timerStatus = TimerStatus.STOP;
+
+    ProgressBar progressBarCircle;
+    EditText editTextMinute;
+    TextView textViewTime;
+
+    //these imageviews act as buttons now!
+    ImageView imageViewStartStop;
+    ImageView imageViewReset;
+    CountDownTimer countDownTimer;
+
+    /*Pop-up dialog before starting timer*/
+    Button buttonCloseMsg;
+    Dialog startTimerDialog;
+    TextView startTimerBodyMsg, startTimerHeaderMsg;
+
+    /*Pop-up dialog when timer ends*/
+    Button endButtonCloseMsg;
+    Dialog endTimerDialog;
+    TextView endTimerBodyMsg, endTimerHeaderMsg;
+
+    /*Pop-up dialog when timer is paused*/
+    Button confirmResetButton;
+    Button cancelResetButton;
+    Dialog pauseTimerDialog;
+    TextView pauseTimerBodyMsg, pauseTimerHeaderMsg;
+
+    /*Variables needed when timer ends*/
+    Vibrator vibrator;
+
     long timeElapsed = 0;
-    boolean isTicking;
-    Button button_start;
-    TextView timerDuration;
-    CountDownTimer timer;
-    BottomNavigationView navigation;
+    BottomNavigationView bottomNavigation;
+
     DatabaseReference dbRef;
-    FirebaseAuth auth;
+    FirebaseAuth auth = FirebaseAuth.getInstance();
     User user;
 
     @Override
@@ -40,34 +83,35 @@ public class TimerActivity extends AppCompatActivity {
 
         initValues();
         initListeners();
-
-        render();
     }
 
     private void initValues() {
-        duration = 1500000;
-        button_start = (Button) findViewById(R.id.button_timer);
-        timerDuration = (TextView) findViewById(R.id.text_duration);
-        isTicking = false;
-        navigation = (BottomNavigationView) findViewById(R.id.bottom_nav);
-
-        auth = FirebaseAuth.getInstance();
         dbRef = FirebaseDatabase.getInstance().getReference("users");
         user = new User(-1);
+        bottomNavigation = (BottomNavigationView) findViewById(R.id.bottom_nav);
+
+        progressBarCircle = (ProgressBar) findViewById(R.id.progressBarCircle);
+        editTextMinute = (EditText) findViewById(R.id.editTextMinute);
+        textViewTime = (TextView) findViewById(R.id.text_duration);
+        imageViewStartStop = (ImageView) findViewById(R.id.imageViewStartStop);
+        imageViewReset = (ImageView) findViewById(R.id.imageViewReset);
+
+        /*Dialog box*/
+        startTimerDialog = new Dialog(this);
+        endTimerDialog = new Dialog(this);
+        pauseTimerDialog = new Dialog(this);
+
+        /*Vibrator*/
+        vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+
     }
 
-    private void initListeners() {
-        button_start.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                if (!isTicking) {
-                    startTimer();
-                } else {
-                    stopTimer();
-                }
-            }
-        });
+    private void initListeners () {
+        //make the play and pause buttons clickable
+        imageViewStartStop.setOnClickListener(this);
 
-        navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+        //Bottom Navigation Bar navigation
+        bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
@@ -105,47 +149,186 @@ public class TimerActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.imageViewReset:
+                reset();
+                break;
+            case R.id.imageViewStartStop:
+                startStop();
+                break;
+        }
+    }
+
+    //can tentatively ignore this and all the reset features
+    private void reset() {
+        stopTimer();
+        startTimer();
+    }
+
+    //method to start and stop the timer
+    private void startStop() {
+        if (timerStatus == TimerStatus.STOP) {
+
+            /*Dialog Box*/
+            ShowStartTimerMsg();
+            setTimerValues();
+            setProgressBarValues();
+            imageViewStartStop.setImageResource(R.drawable.pause);
+            editTextMinute.setEnabled(false);
+            timerStatus = TimerStatus.START;
+        } else {
+            ShowPauseTimerMsg();
+            imageViewReset.setVisibility(View.GONE);
+            imageViewStartStop.setImageResource(R.drawable.play);
+            editTextMinute.setEnabled(true);
+            timerStatus = TimerStatus.STOP;
+            //stopTimer();
+        }
+    }
+
+    //initialize the input timer value
+    private void setTimerValues () {
+        int time = 0;
+        String num = editTextMinute.getText().toString();
+
+        if (!num.isEmpty()) {
+            time = Integer.parseInt(num.trim());
+        } else {
+            Toast.makeText(getApplicationContext(), "Enter minutes please", Toast.LENGTH_LONG).show();
+        }
+        timeCountInMS = time*60*1000;
+    }
+
+    //start the timer
     private void startTimer() {
-        button_start.setBackgroundResource(R.drawable.pause);
-        timer = new CountDownTimer(Long.valueOf(duration), 1000) {
+        countDownTimer = new CountDownTimer(timeCountInMS, 1000) {
             @Override
-            public void onTick(long l) {
-                System.out.println("duration: " + duration);
-                duration -= 1000;
+            public void onTick(long msUntilDone) {
+                textViewTime.setText(hmsTimeFormatter(msUntilDone));
+                progressBarCircle.setProgress((int) (msUntilDone / 1000));
                 timeElapsed++;
-                render();
             }
 
             @Override
             public void onFinish() {
-                Toast.makeText(getApplicationContext(), "Done!!", Toast.LENGTH_SHORT).show();
+
+                /*Vibration*/
+                if (Build.VERSION.SDK_INT >= 26) {
+                    vibrator.vibrate(VibrationEffect.createOneShot(200, VibrationEffect.DEFAULT_AMPLITUDE));
+                } else {
+                    vibrator.vibrate(200);
+                }
+
+                ShowEndTimerMsg();
+                textViewTime.setText(hmsTimeFormatter(timeCountInMS));
+                setProgressBarValues();
+                imageViewReset.setVisibility(View.GONE);
+                imageViewStartStop.setImageResource(R.drawable.play);
+                editTextMinute.setEnabled(true);
+                timerStatus = TimerStatus.STOP;
             }
         }.start();
-        isTicking = true;
-        Toast.makeText(getApplicationContext(), "Timer started", Toast.LENGTH_SHORT).show();
+        countDownTimer.start();
     }
 
+    //stopping the timer just cancels the timer and resets it immediately
     private void stopTimer() {
-        button_start.setBackgroundResource(R.drawable.play);
-        try {
-            timer.cancel();
-            Toast.makeText(getApplicationContext(), "Timer stopped", Toast.LENGTH_SHORT).show();
-            isTicking = false;
-            handleElapsedTime();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
+        countDownTimer.cancel();
     }
 
-    private void render() {
-        int seconds = (int) duration / 1000;
-        int minutes = seconds / 60;
-        seconds = seconds % 60;
-        timerDuration.setText(String.format("%d:%02d", minutes, seconds));
+    //progress bar animation
+    private void setProgressBarValues() {
+        progressBarCircle.setMax((int) timeCountInMS / 1000);
+        progressBarCircle.setProgress((int) timeCountInMS / 1000);
+    }
+
+    //copied the code but this is hour, minute, second time formatter
+    private String hmsTimeFormatter(long milliSeconds) {
+        String hms = String.format("%02d:%02d:%02d",
+                TimeUnit.MILLISECONDS.toHours(milliSeconds),
+                TimeUnit.MILLISECONDS.toMinutes(milliSeconds) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(milliSeconds)),
+                TimeUnit.MILLISECONDS.toSeconds(milliSeconds) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(milliSeconds)));
+        return hms;
+    }
+
+    private void ShowStartTimerMsg() {
+        startTimerDialog.setContentView(R.layout.timer_start_popup);
+        buttonCloseMsg = (Button) startTimerDialog.findViewById(R.id.button_gotit);
+        startTimerHeaderMsg = (TextView) startTimerDialog.findViewById(R.id.ready_textView);
+        startTimerBodyMsg = (TextView) startTimerDialog.findViewById(R.id.startTimerMsg_textView);
+
+        buttonCloseMsg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startTimerDialog.dismiss();
+                startTimer();
+            }
+        });
+
+        startTimerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        startTimerDialog.show();
+    }
+
+    private void ShowEndTimerMsg() {
+        endTimerDialog.setContentView(R.layout.timer_end_popup);
+        endButtonCloseMsg = (Button) endTimerDialog.findViewById(R.id.button_gotcha);
+        endTimerHeaderMsg = (TextView) endTimerDialog.findViewById(R.id.endTimerHeader_textView);
+        endTimerBodyMsg = (TextView) endTimerDialog.findViewById(R.id.endTimerMsg_textView);
+
+        endButtonCloseMsg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                handleElapsedTime();
+                endTimerDialog.dismiss();
+
+            }
+        });
+
+        endTimerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        endTimerDialog.show();
+    }
+
+    private void ShowPauseTimerMsg() {
+        pauseTimerDialog.setContentView(R.layout.timer_pause_popup);
+        confirmResetButton = (Button) pauseTimerDialog.findViewById(R.id.button_confirm);
+        cancelResetButton = (Button) pauseTimerDialog.findViewById(R.id.button_cancel);
+        pauseTimerHeaderMsg = (TextView) pauseTimerDialog.findViewById(R.id.pauseTimerHeader_textView);
+        pauseTimerBodyMsg = (TextView) pauseTimerDialog.findViewById(R.id.pauseTimerMsg_textView);
+
+        confirmResetButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                pauseTimerDialog.dismiss();
+                stopTimer();
+                textViewTime.setText(hmsTimeFormatter(timeCountInMS));
+                setProgressBarValues();
+                imageViewReset.setVisibility(View.GONE);
+                imageViewStartStop.setImageResource(R.drawable.play);
+                editTextMinute.setEnabled(true);
+                timerStatus = TimerStatus.STOP;
+                handleElapsedTime();
+            }
+        });
+
+        cancelResetButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                pauseTimerDialog.dismiss();
+            }
+        });
+
+        pauseTimerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        pauseTimerDialog.show();
     }
 
     private void handleElapsedTime() {
+        System.out.println("handleElapsedTime: adding " + timeElapsed);
+        System.out.println("auth: " + auth .getUid());
         dbRef.child(auth.getUid()).child("timer").setValue(user.addTime(timeElapsed));
         timeElapsed = 0;
     }
 }
+
+

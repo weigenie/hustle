@@ -10,7 +10,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.facebook.login.Login;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -64,7 +63,6 @@ public class LoginActivity extends AppCompatActivity {
                 Intent nextIntent = new Intent(LoginActivity.this,
                         RegisterActivity.class);
                 startActivity(nextIntent);
-                LoginActivity.this.finish();
             }
         });
     }

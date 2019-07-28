@@ -24,8 +24,8 @@ import java.util.Timer;
 
 public class StatsActivity extends AppCompatActivity {
 
-    ImageButton logOut;
     TextView text;
+    ImageButton logOut;
     static Long elapsed;
     BottomNavigationView navigation;
     DatabaseReference ref;
@@ -45,10 +45,9 @@ public class StatsActivity extends AppCompatActivity {
 
     private void initValues() {
         elapsed = Long.valueOf(-1);
+        logOut = (ImageButton) findViewById(R.id.btn_signout);
         text =  (TextView) findViewById(R.id.text_durationDisplay);
         navigation = (BottomNavigationView) findViewById(R.id.bottom_nav);
-        logOut = (ImageButton) findViewById(R.id.btn_signout);
-
         auth = FirebaseAuth.getInstance();
         ref = FirebaseDatabase.getInstance().getReference("users");
         user = new User(-1);
@@ -62,12 +61,10 @@ public class StatsActivity extends AppCompatActivity {
                     case R.id.nav_timer:
                         Intent a = new Intent(StatsActivity.this,TimerActivity.class);
                         startActivity(a);
-                        StatsActivity.this.finish();
                         break;
                     case R.id.nav_todo:
                         Intent b = new Intent(StatsActivity.this,TodoActivity.class);
                         startActivity(b);
-                        StatsActivity.this.finish();
                         break;
                     case R.id.nav_profile:
                         break;
@@ -80,7 +77,7 @@ public class StatsActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 try {
-                    user = dataSnapshot.child(auth.getUid()).child("timer").getValue(User.class);
+                    user = dataSnapshot.child(auth.getUid()).getValue(User.class);
                     render();
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
@@ -99,7 +96,6 @@ public class StatsActivity extends AppCompatActivity {
                 StatsActivity.this.logOut();
             }
         });
-
 
     }
 

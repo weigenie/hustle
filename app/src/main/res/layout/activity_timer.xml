@@ -8,6 +8,55 @@
     android:layout_height="match_parent"
     android:background="#FFC178">
 
+    <ProgressBar
+        android:id="@+id/progressBarCircle"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="270dp"
+        android:layout_height="270dp"
+        android:layout_centerInParent="true"
+        android:background="@drawable/timer_circle"
+        android:indeterminate="false"
+        android:max="100"
+        android:progress="100"
+        android:progressDrawable="@drawable/timer_moving_circle"
+        android:rotation="-90" />
+
+    <EditText
+        android:id="@+id/editTextMinute"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/text_duration"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:gravity="center"
+        android:hint="Enter minutes"
+        android:inputType="number"
+        android:maxLength="15"
+        android:maxLines="1"
+        android:minEms="5"
+        android:text="25"
+        android:textColor="#FFF"
+        android:fontFamily="@font/determination_monoweb"
+        android:textColorHint="#D3D3D3" />
+
+    <ImageView
+        android:id="@+id/imageViewStartStop"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_below="@+id/progressBarCircle"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/play" />
+
+    <ImageView
+        android:id="@+id/imageViewReset"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_below="@+id/text_duration"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="30dp"
+        android:src="@drawable/pause"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/intro_textview"
@@ -19,16 +68,25 @@
         android:layout_marginTop="100dp"
 
         android:fontFamily="@font/determination_monoweb"
-        android:text="time to hustle!"
+        android:text="TIME TO HUSTLE!"
         android:textColor="#FFF"
 
-        android:textSize="27dp"
+        android:textSize="35dp"
         app:layout_constraintBottom_toTopOf="@+id/text_duration"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-
     <TextView
+        android:id="@+id/text_duration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="00:25:00"
+        android:textColor="#FFF"
+        android:fontFamily="@font/determination_monoweb"
+        android:textSize="50dp" />
+
+    <!--<TextView
         android:id="@+id/text_duration"
 
         android:layout_width="wrap_content"
@@ -49,10 +107,12 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" />-->
 
 
-    <Button
+
+
+    <!--<Button
         android:id="@+id/button_timer"
 
         android:layout_width="100dp"
@@ -67,39 +127,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_duration" />
+        app:layout_constraintTop_toBottomOf="@+id/text_duration" />-->
 
-
-
-    <!--<Button-->
-        <!--android:id="@+id/toStats"-->
-
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_below="@+id/button_timer"-->
-
-        <!--android:layout_marginTop="36dp"-->
-        <!--android:layout_centerHorizontal="true"-->
-
-        <!--android:text="Stats page"-->
-        <!--app:layout_constraintEnd_toEndOf="parent"-->
-        <!--app:layout_constraintStart_toStartOf="parent"-->
-        <!--app:layout_constraintTop_toBottomOf="@+id/button_timer" />-->
-
-    <!--<Button-->
-        <!--android:id="@+id/toTodo"-->
-
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_below="@+id/toStats"-->
-
-        <!--android:layout_marginTop="30dp"-->
-        <!--android:layout_centerHorizontal="true"-->
-
-        <!--android:text="TO-DO PAGE"-->
-        <!--app:layout_constraintEnd_toEndOf="parent"-->
-        <!--app:layout_constraintStart_toStartOf="parent"-->
-        <!--app:layout_constraintTop_toBottomOf="@+id/button_timer" />-->
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_nav"

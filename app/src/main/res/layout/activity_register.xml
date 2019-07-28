@@ -2,10 +2,23 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/btn_signout"
+    android:id="@+id/linearLayout2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#8FB2A8" >
+    android:background="@drawable/login_background" >
+
+    <!--HUSTLE logo Image View-->
+    <ImageView
+        android:id="@+id/logo_imageview"
+
+        android:layout_width="110dp"
+        android:layout_height="110dp"
+
+        android:layout_marginTop="40dp"
+        android:layout_centerHorizontal="true"
+
+        android:src="@drawable/logo" />
+
 
     //"CREATE A NEW ACCOUNT" Text View
     <TextView
@@ -13,9 +26,10 @@
 
         android:layout_width="232dp"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/logo_imageview"
 
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="5dp"
 
         android:text="CREATE A NEW ACCOUNT"
         android:textSize="25dp"
@@ -40,12 +54,12 @@
         android:textColor="#FFF"
         android:gravity="center" />
 
-    //Email Registration Edit Text
+    <!--Email Registration Edit Text-->
     <EditText
         android:id="@+id/edit_email_registration"
 
-        android:layout_width="290dp"
-        android:layout_height="wrap_content"
+        android:layout_width="300dp"
+        android:layout_height="45dp"
         android:layout_below="@+id/best_textview"
 
         android:layout_centerHorizontal="true"
@@ -53,26 +67,27 @@
 
         android:background="@drawable/login_box"
 
-        android:paddingLeft="10dp"
+        android:paddingLeft="20dp"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
 
-        android:ems="10"
-        android:hint="email"
-        android:inputType="textEmailAddress"
+        android:ems="15"
+        android:hint="Email"
+        android:inputType="textPersonName"
         android:fontFamily="@font/glacial_indifference_regular"
         android:textColor="#6D6D6D"
 
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.578"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    //Password Registration Edit Text
+    <!--Password Registration Edit Text-->
     <EditText
         android:id="@+id/edit_password_registration"
 
-        android:layout_width="290dp"
-        android:layout_height="wrap_content"
+        android:layout_width="300dp"
+        android:layout_height="45dp"
         android:layout_below="@+id/edit_email_registration"
 
         android:layout_centerHorizontal="true"
@@ -80,45 +95,42 @@
 
         android:background="@drawable/login_box"
 
-        android:paddingLeft="10dp"
+        android:paddingLeft="20dp"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
 
-        android:ems="10"
-        android:hint="password"
+        android:ems="15"
+        android:hint="Password"
         android:inputType="textPassword"
         android:fontFamily="@font/glacial_indifference_regular"
         android:textColor="#6D6D6D"
 
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_email_registration"
-        app:layout_constraintVertical_bias="0.019" />
+        app:layout_constraintTop_toBottomOf="@+id/edit_username" />
 
-    //Register Button
+    <!--Register Button-->
     <Button
         android:id="@+id/button_register"
 
-        android:layout_width="110dp"
-        android:layout_height="35dp"
+        android:layout_width="300dp"
+        android:layout_height="45dp"
         android:layout_below="@+id/edit_password_registration"
 
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
 
-        android:background="#66FFFFFF"
+        android:background="@drawable/login_button"
 
-        android:text="Register"
-        android:textSize="20dp"
         android:fontFamily="@font/glacial_indifference_bold"
+        android:paddingLeft="10dp"
+        android:paddingTop="1dp"
+        android:paddingBottom="1dp"
+        android:text="R E G I S T E R"
         android:textColor="#FFF"
+        android:textSize="15dp"
 
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_password_registration"
-        app:layout_constraintVertical_bias="0.027" />
+        app:layout_constraintTop_toBottomOf="@+id/edit_password" />
     
 </RelativeLayout>

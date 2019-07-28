@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
+    android:gravity="center">
+
+    <!--Pop-up Card when timer starts-->
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="15dp"
+        app:cardBackgroundColor="#f2e3c9"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="25dp"
+            android:layout_marginBottom="25dp">
+
+            <TextView
+                android:id="@+id/endTimerHeader_textView"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+
+                android:textAlignment="center"
+                android:textSize="35dp"
+                android:textColor="#444444"
+
+                android:fontFamily="@font/determination_monoweb"
+                android:text="YOU DID IT"/>
+
+            <TextView
+                android:id="@+id/endTimerMsg_textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="10dp"
+
+                android:textAlignment="center"
+                android:textSize="20dp"
+                android:textColor="#444444"
+
+                android:fontFamily="@font/determination_monoweb"
+                android:text= "Good job HUSTLIN'! Take a break and come back soon!"/>
+
+
+            <Button
+                android:id="@+id/button_gotcha"
+                android:layout_width="130dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_gravity="center"
+
+                android:background="@drawable/timer_popup_button"
+
+                android:textAlignment="center"
+                android:textSize="25dp"
+                android:textColor="#444444"
+
+                android:fontFamily="@font/determination_monoweb"
+                android:text="GOTCHA"
+                />
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>

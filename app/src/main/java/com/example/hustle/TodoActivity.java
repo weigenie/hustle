@@ -58,6 +58,7 @@ public class TodoActivity extends AppCompatActivity {
 
         initValues();
         initListeners();
+        updateUI();
     }
 
     private void initValues() {
@@ -73,7 +74,6 @@ public class TodoActivity extends AppCompatActivity {
                 System.out.println("child event added");
                 String newTodo = dataSnapshot.getValue(String.class);
                 todos.add(0, newTodo);
-                TodoActivity.this.updateUI();
             }
 
             @Override
@@ -121,14 +121,12 @@ public class TodoActivity extends AppCompatActivity {
                     case R.id.nav_timer:
                         Intent a = new Intent(TodoActivity.this,TimerActivity.class);
                         startActivity(a);
-                        TodoActivity.this.finish();
                         break;
                     case R.id.nav_todo:
                         break;
                     case R.id.nav_profile:
                         Intent b = new Intent(TodoActivity.this,StatsActivity.class);
                         startActivity(b);
-                        TodoActivity.this.finish();
                         break;
                 }
                 return false;
@@ -155,13 +153,7 @@ public class TodoActivity extends AppCompatActivity {
                             .setNegativeButton("Cancel", null)
                             .create();
                     dialog.show();
-                    dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                        @Override
-                        public void onDismiss(DialogInterface dialogInterface) {
-                            System.out.println("dialog dismissed");
-                            updateUI();
-                        }
-                    });
+                    updateUI();
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
                 }
@@ -172,7 +164,6 @@ public class TodoActivity extends AppCompatActivity {
     }
 
     private void updateUI() {
-        System.out.println("update UI called");
         mAdapter.notifyDataSetChanged();
     }
 }
