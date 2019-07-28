@@ -9,11 +9,13 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -31,6 +33,9 @@ import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -41,9 +46,9 @@ public class TodoActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
-    ArrayList<String> todos;
+    static ArrayList<Todo> todos;
     BottomNavigationView navigation;
-    DatabaseReference fireDb;
+    static DatabaseReference fireDb;
     FirebaseAuth auth;
     ChildEventListener childEventListener;
 
@@ -62,13 +67,15 @@ public class TodoActivity extends AppCompatActivity {
 
         todos = new ArrayList<>();
         auth = FirebaseAuth.getInstance();
-        fireDb = LoginActivity.db.getReference("users").child(auth.getUid()).child("todos");
+        fireDb = FirebaseDatabase.getInstance().getReference("users")
+                .child(auth.getUid()).child("todos");
         childEventListener = new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                System.out.println("child event added");
                 String newTodo = dataSnapshot.getValue(String.class);
-                todos.add(0, newTodo);
+                String newID = dataSnapshot.getKey();
+                Log.i(TAG, "adding child...\ntext: " + newTodo + "\nID: " + newID);
+                todos.add(0, new Todo(newID, newTodo));
                 TodoActivity.this.updateUI();
             }
 
@@ -80,21 +87,21 @@ public class TodoActivity extends AppCompatActivity {
             @Override
             public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
                 System.out.println("child event removed");
-                ArrayList<String> temp = new ArrayList<>();
-                for (DataSnapshot snapshots: dataSnapshot.getChildren()) {
-                    temp.add(snapshots.getValue(String.class));
-                }
-                todos = temp;
+                String removed_ID = dataSnapshot.getKey();
+                String removed_text = dataSnapshot.getValue(String.class);
+                Log.i(TAG, "removed: " + removed_text);
+                todos.remove(new Todo(removed_ID, removed_text));
+                TodoActivity.this.updateUI();
             }
 
             @Override
             public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                System.out.println("child event moved");
+                Log.i(TAG, "child event moved");
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                System.out.println("child event cancelled");
+                Log.i(TAG, "child event cancelled");
             }
         };
 
@@ -116,12 +123,14 @@ public class TodoActivity extends AppCompatActivity {
                     case R.id.nav_timer:
                         Intent a = new Intent(TodoActivity.this,TimerActivity.class);
                         startActivity(a);
+                        TodoActivity.this.finish();
                         break;
                     case R.id.nav_todo:
                         break;
                     case R.id.nav_profile:
                         Intent b = new Intent(TodoActivity.this,StatsActivity.class);
                         startActivity(b);
+                        TodoActivity.this.finish();
                         break;
                 }
                 return false;
@@ -170,17 +179,20 @@ public class TodoActivity extends AppCompatActivity {
 }
 
 class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
-    private ArrayList<String> mDataset;
+    private ArrayList<Todo> mDataset;
+    private String TAG = "MyAdapter";
 
-    public static class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView title;
-        public MyViewHolder(View v) {
+    static class MyViewHolder extends RecyclerView.ViewHolder {
+        TextView title;
+        Button delete;
+        MyViewHolder(View v) {
             super(v);
             title = (TextView) v.findViewById(R.id.task_title);
+            delete = (Button) v.findViewById(R.id.task_delete);
         }
     }
 
-    public MyAdapter(ArrayList<String> myDataset) {
+    public MyAdapter(ArrayList<Todo> myDataset) {
         this.mDataset = myDataset;
     }
 
@@ -194,8 +206,18 @@ class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        holder.title.setText(mDataset.get(position));
+    public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
+        holder.title.setText(mDataset.get(position).text);
+        holder.delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.i(TAG, "onClick");
+                String ID = mDataset.get(position).ID;
+                DatabaseReference db = TodoActivity.fireDb;
+                db.child(ID).removeValue();
+                MyAdapter.this.notifyDataSetChanged();
+            }
+        });
     }
 
     @Override
