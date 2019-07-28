@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -25,7 +23,6 @@ import java.util.Timer;
 public class StatsActivity extends AppCompatActivity {
 
     TextView text;
-    ImageButton logOut;
     static Long elapsed;
     BottomNavigationView navigation;
     DatabaseReference ref;
@@ -45,7 +42,6 @@ public class StatsActivity extends AppCompatActivity {
 
     private void initValues() {
         elapsed = Long.valueOf(-1);
-        logOut = (ImageButton) findViewById(R.id.btn_signout);
         text =  (TextView) findViewById(R.id.text_durationDisplay);
         navigation = (BottomNavigationView) findViewById(R.id.bottom_nav);
         auth = FirebaseAuth.getInstance();
@@ -77,7 +73,7 @@ public class StatsActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 try {
-                    user = dataSnapshot.child(auth.getUid()).getValue(User.class);
+                    user = dataSnapshot.child(auth.getUid()).child("timer").getValue(User.class);
                     render();
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
@@ -89,14 +85,6 @@ public class StatsActivity extends AppCompatActivity {
                 System.out.println(databaseError.getMessage());
             }
         });
-
-        logOut.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                StatsActivity.this.logOut();
-            }
-        });
-
     }
 
     private void render() {
@@ -104,12 +92,5 @@ public class StatsActivity extends AppCompatActivity {
         long hours = elapsed.longValue() / 60;
         long minutes = elapsed.longValue() - hours * 60;
         text.setText(String.format("%dH %02dMINS", hours, minutes));
-    }
-
-    private void logOut() {
-        auth.signOut();
-        Intent i = new Intent(StatsActivity.this, LoginActivity.class);
-        startActivity(i);
-        this.finish();
     }
 }

@@ -26,6 +26,7 @@ public class LoginActivity extends AppCompatActivity {
     EditText edit_username, edit_pw;
     static FirebaseDatabase db;
     static FirebaseAuth auth;
+//    private static final int RC_SIGN_IN = 123;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

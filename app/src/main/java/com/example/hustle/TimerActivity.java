@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -33,6 +34,7 @@ import java.util.concurrent.TimeUnit;
 
 public class TimerActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private String TAG = "TimerActivity";
     long timeCountInMS = 1*60000;
 
     enum TimerStatus {
@@ -73,7 +75,7 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
     BottomNavigationView bottomNavigation;
 
     DatabaseReference dbRef;
-    FirebaseAuth auth = FirebaseAuth.getInstance();
+    FirebaseAuth auth;
     User user;
 
     @Override
@@ -86,6 +88,7 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void initValues() {
+        auth = FirebaseAuth.getInstance();
         dbRef = FirebaseDatabase.getInstance().getReference("users");
         user = new User(-1);
         bottomNavigation = (BottomNavigationView) findViewById(R.id.bottom_nav);
@@ -209,6 +212,7 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
                 textViewTime.setText(hmsTimeFormatter(msUntilDone));
                 progressBarCircle.setProgress((int) (msUntilDone / 1000));
                 timeElapsed++;
+                Log.i(TAG, "incrementing time: " + timeElapsed);
             }
 
             @Override
@@ -280,9 +284,8 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
         endButtonCloseMsg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                handleElapsedTime();
                 endTimerDialog.dismiss();
-
+                handleElapsedTime();
             }
         });
 
@@ -326,9 +329,7 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
     private void handleElapsedTime() {
         System.out.println("handleElapsedTime: adding " + timeElapsed);
         System.out.println("auth: " + auth .getUid());
-        dbRef.child(auth.getUid()).child("timer").setValue(user.addTime(timeElapsed));
+        dbRef.child(auth.getUid()).child("timer").setValue(user.addTime(timeElapsed / 2));
         timeElapsed = 0;
     }
 }
-
-
