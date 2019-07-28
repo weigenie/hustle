@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -30,9 +31,12 @@ import java.util.List;
 
 public class LoginActivity extends AppCompatActivity {
     Button button_login, button_register;
+    ProgressBar pBar;
     EditText edit_username, edit_pw;
+    View grayOut;
     static FirebaseDatabase db;
     static FirebaseAuth auth;
+
 //    CallbackManager callbackManager;
 //    LoginButton mLoginButton;
 //    private String TAG = "LoginActivity";
@@ -58,6 +62,8 @@ public class LoginActivity extends AppCompatActivity {
 //        mLoginButton = findViewById(R.id.fb_login);
 //        mLoginButton.setAuthType(AUTH_TYPE);
 
+        pBar = (ProgressBar) findViewById(R.id.progressbar);
+        grayOut = (View) findViewById(R.id.fadeBackground);
         button_login = (Button) findViewById(R.id.button_login);
         button_register = (Button) findViewById(R.id.button_toRegister);
         edit_username = (EditText) findViewById(R.id.edit_username);
@@ -122,6 +128,9 @@ public class LoginActivity extends AppCompatActivity {
 
     private void validate(String user, String pw) {
         try {
+            pBar.setVisibility(View.VISIBLE);
+            grayOut.setVisibility(View.VISIBLE);
+            grayOut.animate().alpha(0.5f);
             auth.signInWithEmailAndPassword(user, pw).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
@@ -131,6 +140,9 @@ public class LoginActivity extends AppCompatActivity {
                         LoginActivity.this.finish();
                     } else {
                         Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        pBar.setVisibility(View.GONE);
+                        grayOut.setVisibility(View.GONE);
+                        grayOut.setAlpha(0f);
                     }
                 }
             });

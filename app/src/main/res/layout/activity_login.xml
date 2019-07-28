@@ -39,14 +39,11 @@
     <!--for the best experience with HUSTLE" Text View-->
     <TextView
         android:id="@+id/best_textview"
-
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/create_textview"
-
         android:layout_centerHorizontal="true"
         android:layout_marginTop="5dp"
-
         android:text="create an account for the best experience with HUSTLE."
         android:textSize="15dp"
         android:fontFamily="@font/glacial_indifference_regular"
@@ -56,26 +53,20 @@
     <!--Email Edit Text-->
     <EditText
         android:id="@+id/edit_username"
-
         android:layout_width="300dp"
         android:layout_height="45dp"
         android:layout_below="@+id/best_textview"
-
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-
         android:background="@drawable/login_box"
-
         android:paddingLeft="20dp"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
-
         android:ems="15"
         android:hint="Email"
         android:inputType="textPersonName"
         android:fontFamily="@font/glacial_indifference_regular"
         android:textColor="#6D6D6D"
-
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.578"
         app:layout_constraintStart_toStartOf="parent"
@@ -84,26 +75,20 @@
     <!--Password Edit Text-->
     <EditText
         android:id="@+id/edit_password"
-
         android:layout_width="300dp"
         android:layout_height="45dp"
         android:layout_below="@+id/edit_username"
-
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-
         android:background="@drawable/login_box"
-
         android:paddingLeft="20dp"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
-
         android:ems="15"
         android:hint="Password"
         android:inputType="textPassword"
         android:fontFamily="@font/glacial_indifference_regular"
         android:textColor="#6D6D6D"
-
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
@@ -113,16 +98,12 @@
     <!--LOGIN button-->
     <Button
         android:id="@+id/button_login"
-
         android:layout_width="300dp"
         android:layout_height="45dp"
         android:layout_below="@+id/edit_password"
-
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-
         android:background="@drawable/login_button"
-
         android:fontFamily="@font/glacial_indifference_bold"
         android:paddingLeft="10dp"
         android:paddingTop="1dp"
@@ -136,19 +117,14 @@
     <!--SIGN UP button-->
     <Button
         android:id="@+id/button_toRegister"
-
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/account_textView"
-
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
-
         android:background="@drawable/sign_button"
-
         android:fontFamily="@font/glacial_indifference_bold"
         android:paddingTop="10dp"
-
         android:paddingBottom="10dp"
         android:text="S I G N  U P"
         android:textColor="#FFF"
@@ -172,18 +148,43 @@
         android:textColor="#FFF"
         android:gravity="center" />
 
-    <com.facebook.login.widget.LoginButton
-        android:id="@+id/fb_login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/button_toRegister"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginStart="167dp"
-        android:layout_marginTop="55dp"
-        android:layout_marginEnd="156dp"
-        android:layout_marginBottom="30dp" />
+    <!--<com.facebook.login.widget.LoginButton-->
+        <!--android:id="@+id/fb_login"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_below="@+id/button_toRegister"-->
+        <!--android:layout_alignParentStart="true"-->
+        <!--android:layout_alignParentEnd="true"-->
+        <!--android:layout_gravity="center_horizontal"-->
+        <!--android:layout_marginStart="167dp"-->
+        <!--android:layout_marginTop="55dp"-->
+        <!--android:layout_marginEnd="156dp"-->
+        <!--android:layout_marginBottom="30dp" />-->
 
+    <ProgressBar
+        android:id="@+id/progressbar"
+        android:elevation="50dp"
+        android:layout_width="46dp"
+        android:layout_height="41dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/fadeBackground"
+        android:elevation="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0"
+        android:visibility="gone"
+        android:background="@android:color/black"
+        android:layerType="hardware"/>
 
 </RelativeLayout>
