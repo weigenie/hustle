@@ -6,7 +6,19 @@
 
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFC178">
+    android:background="@drawable/gradient_timer">
+
+    <TextView
+        android:id="@+id/timer_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+
+        android:text="T I M E R"
+        android:textSize="25dp"
+        android:textColor="#95625d"
+        android:fontFamily="@font/horizon_rounded" />
 
     <ProgressBar
         android:id="@+id/progressBarCircle"
@@ -29,13 +41,13 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="10dp"
         android:gravity="center"
-        android:hint="Enter minutes"
+        android:hint="mins"
         android:inputType="number"
         android:maxLength="15"
         android:maxLines="1"
         android:minEms="5"
         android:text="25"
-        android:textColor="#FFF"
+        android:textColor="#a67261"
         android:fontFamily="@font/determination_monoweb"
         android:textColorHint="#D3D3D3" />
 
@@ -69,9 +81,9 @@
 
         android:fontFamily="@font/determination_monoweb"
         android:text="TIME TO HUSTLE!"
-        android:textColor="#FFF"
+        android:textColor="#a67261"
+        android:textSize="40dp"
 
-        android:textSize="35dp"
         app:layout_constraintBottom_toTopOf="@+id/text_duration"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -82,7 +94,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:text="00:25:00"
-        android:textColor="#FFF"
+        android:textColor="#a67261"
         android:fontFamily="@font/determination_monoweb"
         android:textSize="50dp" />
 

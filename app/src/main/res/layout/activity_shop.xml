@@ -1,0 +1,389 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/gradient_shop" >
+
+    <TextView
+        android:id="@+id/shop_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="S H O P"
+        android:textSize="25dp"
+        android:textColor="#313556"
+        android:fontFamily="@font/horizon_rounded" />
+
+
+    <ScrollView
+        android:id="@+id/stats_scrollview"
+        android:layout_width="match_parent"
+        android:layout_height="617dp"
+        android:layout_below="@id/shop_header"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="58dp">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="20dp">
+
+            <!--HEADER CARD-->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/header_cardview"
+                android:layout_width="370dp"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                app:cardCornerRadius="20dp"
+                app:cardBackgroundColor="#f3f8ff">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/total_coins_texview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="10dp"
+
+                        android:fontFamily="@font/determination_monoweb"
+                        android:text="TOTAL COINS:"
+                        android:textColor="#4E4E4E"
+                        android:textSize="30dp" />
+
+
+                    <TextView
+                        android:id="@+id/total_coins"
+                        android:layout_width="230dp"
+                        android:layout_height="wrap_content"
+
+                        android:layout_toRightOf="@id/total_coins_texview"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginLeft="10dp"
+
+                        android:fontFamily="@font/determination_monoweb"
+                        android:text="100"
+                        android:textColor="#4E4E4E"
+                        android:textSize="30dp" />
+
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginBottom="10dp"
+                        android:src="@drawable/coin" />
+
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <!--Bear Card-->
+           <androidx.cardview.widget.CardView
+               android:id="@+id/bear_cardview"
+               android:layout_width="170dp"
+               android:layout_height="wrap_content"
+               android:layout_alignParentLeft="true"
+               android:layout_marginLeft="23dp"
+               android:layout_marginTop="20dp"
+               android:layout_below="@id/header_cardview"
+               app:cardCornerRadius="20dp"
+               app:cardBackgroundColor="#f3f8ff"
+               app:cardElevation="8dp" >
+
+               <RelativeLayout
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content">
+
+               <TextView
+                   android:id="@+id/bear_textview"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:layout_marginTop="10dp"
+
+                   android:layout_centerHorizontal="true"
+                   android:textAlignment="center"
+
+                   android:text="POLAR BEAR"
+                   android:fontFamily="@font/determination_monoweb"
+                   android:textSize="25dp"
+                   android:textColor="#262c33"/>
+
+
+                   <ImageView
+                       android:id="@+id/bear_image"
+                       android:layout_width="100dp"
+                       android:layout_height="100dp"
+                       android:layout_below="@+id/bear_textview"
+                       android:layout_centerHorizontal="true"
+                       android:padding="10dp"
+                       android:src="@drawable/character_bear" />
+
+                   <TextView
+                       android:id="@+id/bear_coin"
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:layout_marginBottom="10dp"
+                       android:layout_below="@id/bear_image"
+
+
+                       android:layout_centerHorizontal="true"
+                       android:textAlignment="center"
+
+                       android:text="500 COINS"
+                       android:fontFamily="@font/determination_monoweb"
+                       android:textSize="20dp"
+                       android:textColor="#262c33"/>
+
+                   <TextView
+                       android:id="@+id/bear_amt"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_toLeftOf="@id/bear_image"
+                       android:layout_marginRight="10dp"
+                       android:textSize="20dp"
+                       android:text="0" />
+               </RelativeLayout>
+
+           </androidx.cardview.widget.CardView>
+
+            <!--Duck Card-->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/duck_cardview"
+                android:layout_width="170dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="23dp"
+                android:layout_marginTop="20dp"
+                android:layout_below="@id/header_cardview"
+                app:cardCornerRadius="20dp"
+                app:cardBackgroundColor="#f3f8ff"
+                app:cardElevation="8dp" >
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/duck_textview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+
+                        android:layout_centerHorizontal="true"
+                        android:textAlignment="center"
+
+                        android:text="DUCK"
+                        android:fontFamily="@font/determination_monoweb"
+                        android:textSize="25dp"
+                        android:textColor="#262c33"/>
+
+
+                    <ImageView
+                        android:id="@+id/duck_image"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_below="@+id/duck_textview"
+                        android:layout_centerHorizontal="true"
+                        android:padding="10dp"
+                        android:src="@drawable/character_duck" />
+
+                    <TextView
+                        android:id="@+id/duck_coin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:layout_below="@id/duck_image"
+
+
+                        android:layout_centerHorizontal="true"
+                        android:textAlignment="center"
+
+                        android:text="500 COINS"
+                        android:fontFamily="@font/determination_monoweb"
+                        android:textSize="20dp"
+                        android:textColor="#262c33"/>
+
+                    <TextView
+                        android:id="@+id/duck_amt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toLeftOf="@id/duck_image"
+                        android:layout_marginRight="10dp"
+                        android:textSize="20dp"
+                        android:text="0" />
+
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <!--Dog Card-->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/dog_cardview"
+                android:layout_width="170dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="23dp"
+                android:layout_marginTop="20dp"
+                android:layout_below="@id/bear_cardview"
+                app:cardCornerRadius="20dp"
+                app:cardBackgroundColor="#f3f8ff"
+                app:cardElevation="8dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/dog_textview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+
+                        android:layout_centerHorizontal="true"
+                        android:textAlignment="center"
+
+                        android:text="SHIBA INU"
+                        android:fontFamily="@font/determination_monoweb"
+                        android:textSize="25dp"
+                        android:textColor="#262c33"/>
+
+
+                    <ImageView
+                        android:id="@+id/dog_image"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_below="@+id/dog_textview"
+                        android:layout_centerHorizontal="true"
+                        android:padding="10dp"
+                        android:src="@drawable/character_dog" />
+
+                    <TextView
+                        android:id="@+id/dog_coin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:layout_below="@id/dog_image"
+
+
+                        android:layout_centerHorizontal="true"
+                        android:textAlignment="center"
+
+                        android:text="500 COINS"
+                        android:fontFamily="@font/determination_monoweb"
+                        android:textSize="20dp"
+                        android:textColor="#262c33"/>
+
+                    <TextView
+                        android:id="@+id/dog_amt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toLeftOf="@id/dog_image"
+                        android:layout_marginRight="10dp"
+                        android:textSize="20dp"
+                        android:text="0" />
+
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <!--Deer Card-->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/deer_cardview"
+                android:layout_width="170dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="23dp"
+                android:layout_marginTop="20dp"
+                android:layout_below="@id/duck_cardview"
+                app:cardCornerRadius="20dp"
+                app:cardBackgroundColor="#f3f8ff"
+                app:cardElevation="8dp" >
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/deer_textview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+
+                        android:layout_centerHorizontal="true"
+                        android:textAlignment="center"
+
+                        android:text="DEER"
+                        android:fontFamily="@font/determination_monoweb"
+                        android:textSize="25dp"
+                        android:textColor="#262c33"/>
+
+
+                    <ImageView
+                        android:id="@+id/deer_image"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_below="@+id/deer_textview"
+                        android:layout_centerHorizontal="true"
+                        android:padding="10dp"
+                        android:src="@drawable/character_deer" />
+
+                    <TextView
+                        android:id="@+id/deer_coin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:layout_below="@id/deer_image"
+
+
+                        android:layout_centerHorizontal="true"
+                        android:textAlignment="center"
+
+                        android:text="500 COINS"
+                        android:fontFamily="@font/determination_monoweb"
+                        android:textSize="20dp"
+                        android:textColor="#262c33"/>
+
+                    <TextView
+                        android:id="@+id/deer_amt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toLeftOf="@id/deer_image"
+                        android:layout_marginRight="10dp"
+                        android:textSize="20dp"
+                        android:text="0" />
+
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
+
+
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_nav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:itemIconTint="#FFF"
+        app:itemTextColor="#FFF"
+        app:menu="@menu/bottom_navigation" />
+
+
+</RelativeLayout>

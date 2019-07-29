@@ -66,7 +66,8 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
     /*Pop-up dialog when timer ends*/
     Button endButtonCloseMsg;
     Dialog endTimerDialog;
-    TextView endTimerBodyMsg, endTimerHeaderMsg;
+    TextView endTimerBodyMsg, endTimerHeaderMsg, coinEarned, coinMsg;
+    ImageView coinImage;
 
     /*Pop-up dialog when timer is paused*/
     Button confirmResetButton;
@@ -80,10 +81,11 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
     long timeElapsed = 0;
     String date;
     BottomNavigationView bottomNavigation;
-    Long totalTime, loggedTime, stats_total, stats_today;
+    Long totalTime, loggedTime, stats_total, stats_today, coins_amt;
 
     DatabaseReference statsRef;
     DatabaseReference dbRef;
+    DatabaseReference coinRef;
     FirebaseAuth auth;
 
     @Override
@@ -100,6 +102,8 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
         statsRef = FirebaseDatabase.getInstance().getReference("analytics");
         dbRef = FirebaseDatabase.getInstance().getReference("users")
                 .child(auth.getUid()).child("timer");
+        coinRef = FirebaseDatabase.getInstance().getReference("users")
+                .child(auth.getUid()).child("coins");
         bottomNavigation = (BottomNavigationView) findViewById(R.id.bottom_nav);
         date = ZonedDateTime.now(ZoneId.of("UTC+08:00")).toLocalDate().toString();
 
@@ -178,6 +182,18 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
                 Log.e(TAG, databaseError.getMessage());
             }
         });
+
+        coinRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                coins_amt = dataSnapshot.getValue(Long.class);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.i(TAG, "coinRef onCancelled called");
+            }
+        });
     }
 
     @Override
@@ -211,10 +227,6 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
             timerStatus = TimerStatus.START;
         } else {
             ShowPauseTimerMsg();
-            imageViewReset.setVisibility(View.GONE);
-            imageViewStartStop.setImageResource(R.drawable.play);
-            editTextMinute.setEnabled(true);
-            timerStatus = TimerStatus.STOP;
             //stopTimer();
         }
     }
@@ -308,6 +320,9 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
         endButtonCloseMsg = (Button) endTimerDialog.findViewById(R.id.button_gotcha);
         endTimerHeaderMsg = (TextView) endTimerDialog.findViewById(R.id.endTimerHeader_textView);
         endTimerBodyMsg = (TextView) endTimerDialog.findViewById(R.id.endTimerMsg_textView);
+        coinImage = (ImageView) endTimerDialog.findViewById(R.id.coin_imageview);
+        coinMsg = (TextView) endTimerDialog.findViewById(R.id.coins_textView);
+        coinEarned = (TextView) endTimerDialog.findViewById(R.id.coins_earned);
 
         endButtonCloseMsg.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -356,6 +371,11 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
 
     private void handleElapsedTime() {
         Log.i(TAG, "handleElapsedTime: adding " + timeElapsed);
+
+        long newCoinAmt = timeElapsed / 3 + coins_amt;
+        coinRef.setValue(newCoinAmt);
+        Log.i(TAG, "handleElapsedTime: newCoinAmt from " + coins_amt + " to " + newCoinAmt);
+
         statsRef.child(date).setValue(stats_today + timeElapsed / 2);
         statsRef.child("total").setValue(stats_total + timeElapsed / 2);
 

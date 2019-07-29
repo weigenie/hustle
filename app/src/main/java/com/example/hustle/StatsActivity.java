@@ -1,10 +1,14 @@
 package com.example.hustle;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -26,14 +30,22 @@ import java.time.ZonedDateTime;
 public class StatsActivity extends AppCompatActivity {
 
     private String TAG = "StatsActivity";
-    TextView txt_my_total, txt_my_today, txt_all_total, txt_all_today, txt_all_avg;
-    Long my_total, my_today, all_total, all_today, total_users;
+    TextView txt_my_total, txt_my_today, txt_all_total, txt_all_today, txt_all_avg,
+            txt_coins;
+    Long my_total, my_today, all_total, all_today, total_users, coins_amt;
     String date;
     BottomNavigationView navigation;
     DatabaseReference ref;
     DatabaseReference statsRef;
+    DatabaseReference coinsRef;
     FirebaseAuth auth;
-    ImageButton logOut;
+    ImageButton logOut, toShop;
+
+    /*Pop-up dialog when timer is paused*/
+    Button confirmLogoutButton;
+    Button cancelLogoutButton;
+    Dialog logoutDialog;
+    TextView logoutBodyMsg, logoutHeaderMsg;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,19 +62,27 @@ public class StatsActivity extends AppCompatActivity {
         all_total= Long.valueOf(0);
         all_today= Long.valueOf(0);
         total_users = Long.valueOf(1);
+        coins_amt = Long.valueOf(0);
         txt_my_total =  (TextView) findViewById(R.id.txt_my_total);
         txt_my_today = (TextView) findViewById(R.id.txt_my_today);
         txt_all_total = (TextView) findViewById(R.id.txt_all_total);
         txt_all_today = (TextView) findViewById(R.id.txt_all_today);
         txt_all_avg = (TextView) findViewById(R.id.txt_all_avg);
+        txt_coins = (TextView) findViewById(R.id.coins_textview);
         navigation = (BottomNavigationView) findViewById(R.id.bottom_nav);
         logOut = (ImageButton) findViewById(R.id.btn_signout);
+        toShop = (ImageButton) findViewById(R.id.btn_toShop);
         date = ZonedDateTime.now(ZoneId.of("UTC+08:00")).toLocalDate().toString();
+
+        /*Dialog box*/
+        logoutDialog = new Dialog(this);
 
         auth = FirebaseAuth.getInstance();
         ref = FirebaseDatabase.getInstance().getReference("users").child(auth.getUid())
                 .child("timer");
         statsRef = FirebaseDatabase.getInstance().getReference("analytics");
+        coinsRef = FirebaseDatabase.getInstance().getReference("users")
+                    .child(auth.getUid()).child("coins");
     }
 
     private void initListeners() {
@@ -129,10 +149,56 @@ public class StatsActivity extends AppCompatActivity {
         logOut.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
+                ShowLogOutDialog();
+            }
+        });
+
+        coinsRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                coins_amt = dataSnapshot.getValue(Long.class);
+                render();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.i(TAG, "coinsRef onCancelled called");
+            }
+        });
+
+        toShop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(StatsActivity.this, ShopActivity.class);
+                startActivity(i);
+                StatsActivity.this.finish();
+            }
+        });
+    }
+
+    private void ShowLogOutDialog() {
+        logoutDialog.setContentView(R.layout.logout_popup);
+        confirmLogoutButton = (Button) logoutDialog.findViewById(R.id.logout_button_confirm);
+        cancelLogoutButton = (Button) logoutDialog.findViewById(R.id.logout_button_cancel);
+        logoutHeaderMsg = (TextView) logoutDialog.findViewById(R.id.logout_header_textView);
+        logoutBodyMsg = (TextView) logoutDialog.findViewById(R.id.logout_body_textView);
+
+        cancelLogoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                logoutDialog.dismiss();
+            }
+        });
+
+        confirmLogoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 StatsActivity.this.logOut();
             }
         });
 
+        logoutDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        logoutDialog.show();
     }
 
     private String processTime(Long seconds) {
@@ -150,6 +216,7 @@ public class StatsActivity extends AppCompatActivity {
         txt_my_today.setText(processTime(my_today));
         txt_all_total.setText(processTime(all_total));
         txt_all_today.setText(processTime(all_today));
+        txt_coins.setText(coins_amt.toString());
         if (!total_users.equals(Long.valueOf(0))) {
             txt_all_avg.setText(processTime(all_today / total_users));
         } else {

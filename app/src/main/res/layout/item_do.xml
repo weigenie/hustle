@@ -1,51 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:clickable="true"
     android:focusable="true"
     android:orientation="vertical"
-    android:paddingBottom="10dp"
-    android:paddingTop="10dp"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
-    >
+    android:padding="10dp">
 
-    <TextView
-        android:id="@+id/task_title"
-        android:layout_width="239dp"
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:cardCornerRadius="10dp"
+        app:cardBackgroundColor="#a2cbcc">
 
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
+            <!--SUBJECT HEADER-->
+            <TextView
+                android:id="@+id/task_title"
+                android:layout_width="330dp"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:paddingLeft="10dp"
 
-        android:fontFamily="@font/glacial_indifference_regular"
-        android:padding="10dp"
-        android:text="Hello"
-        android:textColor="#FFF"
-        android:textSize="20dp" />
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
 
-    <Button
-        android:id="@+id/task_delete"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:maxLines="1"
-        android:layout_marginStart="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_toRightOf="@+id/task_title"
-        android:background="#66FFFFFF"
-        android:fontFamily="@font/glacial_indifference_bold"
-        android:text="DONE"
-        android:textColor="#FFF"
-        android:textSize="20dp" />
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="10dp"
 
+                android:fontFamily="@font/horizon_rounded"
+                android:text="CS2030"
+                android:textColor="#00353d"
+                android:textSize="20dp" />
+
+            <!--CONTENT-->
+            <TextView
+                android:id="@+id/task_body"
+                android:layout_width="330dp"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10dp"
+                android:paddingLeft="10dp"
+                android:layout_below="@+id/task_title"
+                android:layout_alignParentLeft="true"
+
+                android:layout_marginLeft="10dp"
+
+                android:fontFamily="@font/horizon_rounded"
+                android:text="Finish tutorial"
+                android:textColor="#00353d"
+                android:textSize="17dp" />
+
+            <Button
+                android:id="@+id/task_delete"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="20dp"
+
+                android:layout_marginRight="10dp"
+
+                android:background="@drawable/todo_checked"
+                android:maxLines="1"/>
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
 </RelativeLayout>

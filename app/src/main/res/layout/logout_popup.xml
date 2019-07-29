@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
+    android:gravity="center">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="15dp"
+        app:cardBackgroundColor="#304352"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="25dp"
+            android:layout_marginBottom="25dp">
+
+            <TextView
+                android:id="@+id/logout_header_textView"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+
+                android:textAlignment="center"
+                android:textSize="35dp"
+                android:textColor="#E7E7E7"
+
+                android:fontFamily="@font/determination_monoweb"
+                android:text="LEAVING SO SOON?"/>
+
+            <TextView
+                android:id="@+id/logout_body_textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="10dp"
+
+                android:textAlignment="center"
+                android:textSize="20dp"
+                android:textColor="#E7E7E7"
+
+                android:fontFamily="@font/determination_monoweb"
+                android:text= "Are you sure you want to log out?"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/logout_button_confirm"
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_gravity="left"
+
+                    android:background="@drawable/logout_popup_button"
+
+                    android:textAlignment="center"
+                    android:textSize="25dp"
+                    android:textColor="#444444"
+
+                    android:fontFamily="@font/determination_monoweb"
+                    android:text="LOGOUT"
+                    />
+
+                <Button
+                    android:id="@+id/logout_button_cancel"
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_alignParentRight="true"
+
+                    android:background="@drawable/logout_cancel_popup_button"
+
+                    android:textAlignment="center"
+                    android:textSize="25dp"
+                    android:textColor="#444444"
+
+                    android:fontFamily="@font/determination_monoweb"
+                    android:text="CANCEL"
+                    />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>

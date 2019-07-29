@@ -6,91 +6,422 @@
     android:id="@+id/linearLayout2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/stats_background" >
+    android:background="@drawable/gradient_stats" >
 
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/stats_header"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="P R O F I L E"
+        android:textSize="25dp"
+        android:fontFamily="@font/horizon_rounded" />
 
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
+    <ImageButton
+        android:id="@+id/btn_signout"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
 
-        android:text="Keep HUSTLIN' baconudon!"
-        android:textColor="#4E4E4E"
-        android:textSize="24dp"
-        android:fontFamily="@font/determination_monoweb"
-        />
-
-    <ImageView
-        android:layout_width="128dp"
-        android:layout_height="128dp"
-
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
-        android:src="@drawable/profile_picture"
-        />
-
-    <TextView
-        android:id="@+id/hours_textview"
-
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="200dp"
-
-        android:layout_marginLeft="20dp"
-
-        android:text="TOTAL HOURS"
-        android:fontFamily="@font/determination_monoweb"
-        android:textColor="#4E4E4E"
-        android:textSize="20dp"
-        />
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/hours_cardview"
-        android:layout_width="320dp"
-        android:layout_height="wrap_content"
-        android:layout_columnWeight="1"
-        android:layout_rowWeight="1"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/hours_textview"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="30dp"
         android:layout_marginTop="15dp"
+        android:background="@drawable/logout_button" />
 
-        android:background="#B3FFFFFF"
+        <!--app:srcCompat="@drawable/profile"-->
+        <!--android:contentDescription="TODO"-->
+        <!--tools:ignore="VectorDrawableCompat" />-->
 
-        app:cardElevation="1dp"
-        app:cardCornerRadius="10dp"
-    >
-        <LinearLayout
-            android:padding="10dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
+    <ImageButton
+        android:id="@+id/btn_toShop"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
 
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="30dp"
+        android:background="@drawable/logout_button" />
+
+    <TextView
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/btn_signout"
+        android:layout_marginRight="23dp"
+
+        android:text="SIGN OUT"
+        android:fontFamily="@font/horizon_rounded"
+        android:textSize="12dp" />
+
+
+    <ScrollView
+        android:id="@+id/stats_scrollview"
+        android:layout_width="match_parent"
+        android:layout_height="617dp"
+        android:layout_below="@id/stats_header"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="58dp">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="20dp">
+
+            <!--HEADER CARD-->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/header_cardview"
+                android:layout_width="370dp"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                app:cardCornerRadius="20dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/hustle_textview"
+                        android:layout_width="220dp"
+                        android:layout_height="wrap_content"
+
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="10dp"
+
+                        android:fontFamily="@font/determination_monoweb"
+                        android:text="KEEP HUSTLIN'!"
+                        android:textColor="#4E4E4E"
+                        android:textSize="30dp" />
+
+                    <TextView
+                        android:id="@+id/body_msg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:layout_below="@id/hustle_textview"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="10dp"
+
+                        android:fontFamily="@font/determination_monoweb"
+                        android:text="Total coins:"
+                        android:textColor="#4E4E4E"
+                        android:textSize="18dp" />
+
+                    <TextView
+                        android:id="@+id/coins_textview"
+                        android:layout_width="230dp"
+                        android:layout_height="wrap_content"
+
+                        android:layout_toRightOf="@id/body_msg"
+                        android:layout_below="@id/hustle_textview"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginLeft="5dp"
+
+                        android:fontFamily="@font/determination_monoweb"
+                        android:text="100"
+                        android:textColor="#4E4E4E"
+                        android:textSize="30dp" />
+
+                    <TextView
+                        android:id="@+id/body_msg_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:layout_below="@id/body_msg"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="10dp"
+
+                        android:fontFamily="@font/determination_monoweb"
+                        android:text="Check our your progress below"
+                        android:textColor="#4E4E4E"
+                        android:textSize="18dp" />
+
+                    <ImageView
+                        android:layout_width="90dp"
+                        android:layout_height="90dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginBottom="10dp"
+                        android:src="@drawable/profile_picture" />
+
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <!--COMPARE AVG TITLE-->
             <TextView
-                android:id="@+id/txt_my_total"
+                android:id="@+id/avg_header_textview"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/header_cardview"
+
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+
                 android:fontFamily="@font/determination_monoweb"
+                android:text="HOW YOU FARED TODAY"
                 android:textColor="#4E4E4E"
-                android:textSize="50dp" />
+                android:textSize="25dp" />
 
-        </LinearLayout>
+            <!--PERSONAL TODAY CARD-->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/personal_today_cardview"
+                android:layout_width="370dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/avg_header_textview"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="1dp">
 
-        <TextView
-            android:id="@+id/goodjob_textview"
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp">
+                    <TextView
+                        android:id="@+id/txt_my_today"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/personal_today_textview"
 
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/txt_my_total"
+                        android:layout_marginLeft="10dp"
 
-            android:layout_marginTop="70dp"
-            android:padding="10dp"
+                        android:fontFamily="@font/determination_monoweb"
+                        android:text="1H 10MINS"
+                        android:textColor="#4E4E4E"
+                        android:textSize="55dp" />
 
-            android:fontFamily="@font/determination_monoweb"
-            android:text="spent HUSTLIN'! Good job!"
-            android:textColor="#707070"
-            android:textSize="20dp" />
+                    <TextView
+                        android:id="@+id/personal_today_textview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
 
-    </androidx.cardview.widget.CardView>
+                        android:fontFamily="@font/determination_monoweb"
+                        android:text="TODAY'S HUSTLE"
+                        android:textColor="#707070"
+                        android:textSize="20dp" />
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <!--AVG DAILY CARD-->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/avg_daily_cardview"
+                android:layout_width="370dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/personal_today_cardview"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="15dp"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="1dp">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:id="@+id/txt_all_avg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/avg_daily_textview"
+
+                        android:layout_marginLeft="10dp"
+
+                        android:fontFamily="@font/determination_monoweb"
+                        android:text="2H 10MINS"
+                        android:textColor="#4E4E4E"
+                        android:textSize="55dp" />
+
+                    <TextView
+                        android:id="@+id/avg_daily_textview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+
+                        android:fontFamily="@font/determination_monoweb"
+                        android:text="TODAY'S HUSTLE USER AVERAGE"
+                        android:textColor="#707070"
+                        android:textSize="20dp" />
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/personal_header_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/avg_daily_cardview"
+
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+
+                android:fontFamily="@font/determination_monoweb"
+                android:text="MY PERSONAL PROGRESS"
+                android:textColor="#4E4E4E"
+                android:textSize="25dp" />
+
+            <!--PERSONAL TOTAL CARD-->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/personal_total_cardview"
+                android:layout_width="370dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/personal_header_textview"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="1dp">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:id="@+id/txt_my_total"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/personal_total_textview"
+
+                        android:layout_marginLeft="10dp"
+
+                        android:fontFamily="@font/determination_monoweb"
+                        android:text="10H 10MINS"
+                        android:textColor="#4E4E4E"
+                        android:textSize="55dp" />
+
+                    <TextView
+                        android:id="@+id/personal_total_textview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:fontFamily="@font/determination_monoweb"
+                        android:text="TOTAL HUSTLE USAGE"
+                        android:textColor="#707070"
+                        android:textSize="20dp" />
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!--ALL USERS TITLE-->
+            <TextView
+                android:id="@+id/users_header_textview"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/personal_total_cardview"
+
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+
+                android:fontFamily="@font/determination_monoweb"
+                android:text="ALL USERS' PROGRESS"
+                android:textColor="#4E4E4E"
+                android:textSize="25dp" />
+
+            <!--ALL USERS TOTAL CARD-->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/users_today_cardview"
+                android:layout_width="370dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/users_header_textview"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="1dp">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:id="@+id/users_today_textview"
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+
+                        android:fontFamily="@font/determination_monoweb"
+                        android:text="HUSTLE PROGRESS TODAY"
+                        android:textColor="#707070"
+                        android:textSize="20dp" />
+
+                    <TextView
+                        android:id="@+id/txt_all_today"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/users_today_textview"
+
+                        android:layout_marginLeft="10dp"
+
+                        android:fontFamily="@font/determination_monoweb"
+                        android:text="100H 10MINS"
+                        android:textColor="#4E4E4E"
+                        android:textSize="55dp" />
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <!--ALL USERS TOTAL CARD-->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/users_total_cardview"
+                android:layout_width="370dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/users_today_cardview"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="15dp"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="1dp">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:id="@+id/users_total_textview"
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+
+                        android:fontFamily="@font/determination_monoweb"
+                        android:text="TOTAL HUSTLE USAGE"
+                        android:textColor="#707070"
+                        android:textSize="20dp" />
+
+                    <TextView
+                        android:id="@+id/txt_all_total"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/users_total_textview"
+
+                        android:layout_marginLeft="10dp"
+
+                        android:fontFamily="@font/determination_monoweb"
+                        android:text="1000H 10MINS"
+                        android:textColor="#4E4E4E"
+                        android:textSize="55dp" />
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
+
+        </RelativeLayout>
+
+    </ScrollView>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_nav"
@@ -100,60 +431,6 @@
         app:itemIconTint="#FFF"
         app:itemTextColor="#FFF"
         app:menu="@menu/bottom_navigation" />
-
-    <ImageButton
-        android:id="@+id/btn_signout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/bottom_nav"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginEnd="17dp"
-        android:layout_marginRight="17dp"
-        android:layout_marginBottom="181dp"
-        app:srcCompat="@drawable/profile"
-        android:contentDescription="TODO"
-        tools:ignore="VectorDrawableCompat" />
-
-    <TextView
-        android:id="@+id/txt_my_today"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/hours_cardview"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="19dp"
-        android:layout_marginTop="42dp"
-        android:text="TextView" />
-
-    <TextView
-        android:id="@+id/txt_all_total"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/hours_cardview"
-        android:layout_marginStart="14dp"
-        android:layout_marginTop="42dp"
-        android:layout_toEndOf="@+id/txt_my_today"
-        android:text="TextView" />
-
-    <TextView
-        android:id="@+id/txt_all_today"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/hours_cardview"
-        android:layout_marginStart="11dp"
-        android:layout_marginTop="42dp"
-        android:layout_toEndOf="@+id/txt_all_total"
-        android:text="TextView" />
-
-    <TextView
-        android:id="@+id/txt_all_avg"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/hours_cardview"
-        android:layout_marginStart="6dp"
-        android:layout_marginTop="42dp"
-        android:layout_toEndOf="@+id/txt_all_today"
-        android:text="TextView" />
 
 
 </RelativeLayout>

@@ -40,6 +40,38 @@
                 android:fontFamily="@font/determination_monoweb"
                 android:text="YOU DID IT"/>
 
+            <ImageView
+                android:id="@+id/coin_imageview"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:layout_gravity="center"
+                android:src="@drawable/coin"
+                android:paddingTop="10dp"
+                android:paddingBottom="5dp" />
+
+
+                <TextView
+                    android:id="@+id/coins_earned"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textSize="35dp"
+                    android:textColor="#444444"
+
+                    android:fontFamily="@font/determination_monoweb"
+                    android:text= "100"/>
+
+                <TextView
+                    android:id="@+id/coins_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textSize="35dp"
+                    android:textColor="#444444"
+
+                    android:fontFamily="@font/determination_monoweb"
+                    android:text= "COINS EARNED"/>
+
             <TextView
                 android:id="@+id/endTimerMsg_textView"
                 android:layout_width="match_parent"
