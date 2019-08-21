@@ -117,7 +117,7 @@
                    android:layout_centerHorizontal="true"
                    android:textAlignment="center"
 
-                   android:text="POLAR BEAR"
+                   android:text="BEAR"
                    android:fontFamily="@font/determination_monoweb"
                    android:textSize="25dp"
                    android:textColor="#262c33"/>
@@ -152,9 +152,11 @@
                        android:id="@+id/bear_amt"
                        android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
-                       android:layout_toLeftOf="@id/bear_image"
-                       android:layout_marginRight="10dp"
-                       android:textSize="20dp"
+                       android:layout_marginLeft="20dp"
+                       android:layout_marginTop="5dp"
+                       android:fontFamily="@font/determination_monoweb"
+                       android:textColor="#B05E5E"
+                       android:textSize="25dp"
                        android:text="0" />
                </RelativeLayout>
 
@@ -221,9 +223,11 @@
                         android:id="@+id/duck_amt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_toLeftOf="@id/duck_image"
-                        android:layout_marginRight="10dp"
-                        android:textSize="20dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="5dp"
+                        android:fontFamily="@font/determination_monoweb"
+                        android:textColor="#B05E5E"
+                        android:textSize="25dp"
                         android:text="0" />
 
                 </RelativeLayout>
@@ -256,7 +260,7 @@
                         android:layout_centerHorizontal="true"
                         android:textAlignment="center"
 
-                        android:text="SHIBA INU"
+                        android:text="DOG"
                         android:fontFamily="@font/determination_monoweb"
                         android:textSize="25dp"
                         android:textColor="#262c33"/>
@@ -291,9 +295,11 @@
                         android:id="@+id/dog_amt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_toLeftOf="@id/dog_image"
-                        android:layout_marginRight="10dp"
-                        android:textSize="20dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="5dp"
+                        android:fontFamily="@font/determination_monoweb"
+                        android:textColor="#B05E5E"
+                        android:textSize="25dp"
                         android:text="0" />
 
                 </RelativeLayout>
@@ -361,9 +367,11 @@
                         android:id="@+id/deer_amt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_toLeftOf="@id/deer_image"
-                        android:layout_marginRight="10dp"
-                        android:textSize="20dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="5dp"
+                        android:fontFamily="@font/determination_monoweb"
+                        android:textColor="#B05E5E"
+                        android:textSize="25dp"
                         android:text="0" />
 
                 </RelativeLayout>

@@ -90,40 +90,48 @@ public class ShopActivity extends AppCompatActivity {
         bear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                coins_amt -= 500;
-                coinsRef.setValue(coins_amt);
-                bear_amt++;
-                charsRef.child("bear").setValue(bear_amt);
+                if (coins_amt >= 500) {
+                    coins_amt -= 500;
+                    coinsRef.setValue(coins_amt);
+                    bear_amt++;
+                    charsRef.child("bear").setValue(bear_amt);
+                }
             }
         });
 
         duck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                coins_amt -= 500;
-                coinsRef.setValue(coins_amt);
-                duck_amt++;
-                charsRef.child("duck").setValue(duck_amt);
+                if (coins_amt >= 500) {
+                    coins_amt -= 500;
+                    coinsRef.setValue(coins_amt);
+                    duck_amt++;
+                    charsRef.child("duck").setValue(duck_amt);
+                }
             }
         });
 
         dog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                coins_amt -= 500;
-                coinsRef.setValue(coins_amt);
-                dog_amt++;
-                charsRef.child("dog").setValue(dog_amt);
+                if (coins_amt >= 500) {
+                    coins_amt -= 500;
+                    coinsRef.setValue(coins_amt);
+                    dog_amt++;
+                    charsRef.child("dog").setValue(dog_amt);
+                }
             }
         });
 
         deer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                coins_amt -= 500;
-                coinsRef.setValue(coins_amt);
-                deer_amt++;
-                charsRef.child("deer").setValue(deer_amt);
+                if (coins_amt >= 500) {
+                    coins_amt -= 500;
+                    coinsRef.setValue(coins_amt);
+                    deer_amt++;
+                    charsRef.child("deer").setValue(deer_amt);
+                }
             }
         });
     }

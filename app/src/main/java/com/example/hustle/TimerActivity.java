@@ -203,7 +203,8 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
                 reset();
                 break;
             case R.id.imageViewStartStop:
-                startStop();
+                startActivity(new Intent(this, MapsActivity.class));
+//                startStop();
                 break;
         }
     }
@@ -261,8 +262,6 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
                 /*Vibration*/
                 if (Build.VERSION.SDK_INT >= 26) {
                     vibrator.vibrate(VibrationEffect.createOneShot(200, VibrationEffect.DEFAULT_AMPLITUDE));
-                } else {
-                    vibrator.vibrate(200);
                 }
 
                 ShowEndTimerMsg();
@@ -372,6 +371,7 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
     private void handleElapsedTime() {
         Log.i(TAG, "handleElapsedTime: adding " + timeElapsed);
 
+        if (coins_amt == null) coins_amt = Long.valueOf(0);
         long newCoinAmt = timeElapsed / 3 + coins_amt;
         coinRef.setValue(newCoinAmt);
         Log.i(TAG, "handleElapsedTime: newCoinAmt from " + coins_amt + " to " + newCoinAmt);

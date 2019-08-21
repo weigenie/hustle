@@ -212,6 +212,11 @@ public class StatsActivity extends AppCompatActivity {
     }
 
     private void render() {
+        if (my_today == null) my_today = Long.valueOf(0);
+        if (my_total == null) my_total= Long.valueOf(0);
+        if (all_total == null) all_total = Long.valueOf(0);
+        if (all_today == null) all_today= Long.valueOf(0);
+        if (coins_amt == null) coins_amt = Long.valueOf(0);
         txt_my_total.setText(processTime(my_total));
         txt_my_today.setText(processTime(my_today));
         txt_all_total.setText(processTime(all_total));

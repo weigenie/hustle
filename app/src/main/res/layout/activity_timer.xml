@@ -53,17 +53,17 @@
 
     <ImageView
         android:id="@+id/imageViewStartStop"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_below="@+id/progressBarCircle"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:src="@drawable/play" />
 
     <ImageView
         android:id="@+id/imageViewReset"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_below="@+id/text_duration"
         android:layout_centerInParent="true"
         android:layout_marginTop="30dp"
@@ -83,6 +83,25 @@
         android:text="TIME TO HUSTLE!"
         android:textColor="#a67261"
         android:textSize="40dp"
+
+        app:layout_constraintBottom_toTopOf="@+id/text_duration"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/body_textview"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/intro_textview"
+
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+
+        android:fontFamily="@font/determination_monoweb"
+        android:text="GET THEM COINS"
+        android:textColor="#a67261"
+        android:textSize="30dp"
 
         app:layout_constraintBottom_toTopOf="@+id/text_duration"
         app:layout_constraintEnd_toEndOf="parent"

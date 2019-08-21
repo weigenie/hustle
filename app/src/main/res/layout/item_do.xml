@@ -32,28 +32,12 @@
 
                 android:layout_alignParentTop="true"
                 android:layout_marginLeft="10dp"
-
+                android:layout_marginBottom="15dp"
                 android:fontFamily="@font/horizon_rounded"
                 android:text="CS2030"
                 android:textColor="#00353d"
                 android:textSize="20dp" />
 
-            <!--CONTENT-->
-            <TextView
-                android:id="@+id/task_body"
-                android:layout_width="330dp"
-                android:layout_height="wrap_content"
-                android:paddingBottom="10dp"
-                android:paddingLeft="10dp"
-                android:layout_below="@+id/task_title"
-                android:layout_alignParentLeft="true"
-
-                android:layout_marginLeft="10dp"
-
-                android:fontFamily="@font/horizon_rounded"
-                android:text="Finish tutorial"
-                android:textColor="#00353d"
-                android:textSize="17dp" />
 
             <Button
                 android:id="@+id/task_delete"
@@ -61,7 +45,7 @@
                 android:layout_height="30dp"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
 
                 android:layout_marginRight="10dp"
 

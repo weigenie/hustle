@@ -40,7 +40,7 @@
         android:layout_alignParentLeft="true"
         android:layout_marginTop="15dp"
         android:layout_marginLeft="30dp"
-        android:background="@drawable/logout_button" />
+        android:background="@drawable/shop_button" />
 
     <TextView
 
@@ -52,6 +52,19 @@
         android:layout_marginRight="23dp"
 
         android:text="SIGN OUT"
+        android:fontFamily="@font/horizon_rounded"
+        android:textSize="12dp" />
+
+    <TextView
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/btn_toShop"
+        android:layout_marginLeft="29dp"
+
+        android:text="SHOP"
         android:fontFamily="@font/horizon_rounded"
         android:textSize="12dp" />
 
