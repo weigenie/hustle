@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,9 +24,14 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.Arrays;
+import java.util.Objects;
 
 public class StatsActivity extends AppCompatActivity {
 
@@ -33,6 +39,7 @@ public class StatsActivity extends AppCompatActivity {
     TextView txt_my_total, txt_my_today, txt_all_total, txt_all_today, txt_all_avg,
             txt_coins;
     Long my_total, my_today, all_total, all_today, total_users, coins_amt;
+    Long[] past7days;
     String date;
     BottomNavigationView navigation;
     DatabaseReference ref;
@@ -40,6 +47,7 @@ public class StatsActivity extends AppCompatActivity {
     DatabaseReference coinsRef;
     FirebaseAuth auth;
     ImageButton logOut, toShop;
+    GraphView graph;
 
     /*Pop-up dialog when timer is paused*/
     Button confirmLogoutButton;
@@ -63,6 +71,9 @@ public class StatsActivity extends AppCompatActivity {
         all_today= Long.valueOf(0);
         total_users = Long.valueOf(1);
         coins_amt = Long.valueOf(0);
+        past7days = new Long[7];
+        Arrays.fill(past7days, Long.valueOf(0));
+        graph = (GraphView) findViewById(R.id.stats_graph);
         txt_my_total =  (TextView) findViewById(R.id.txt_my_total);
         txt_my_today = (TextView) findViewById(R.id.txt_my_today);
         txt_all_total = (TextView) findViewById(R.id.txt_all_total);
@@ -113,6 +124,14 @@ public class StatsActivity extends AppCompatActivity {
                 try {
                     my_total = dataSnapshot.child("total").getValue(Long.class);
                     my_today = dataSnapshot.child(date).getValue(Long.class);
+                    for (int i = 0; i < 7; i++) {
+                        String otherDate = ZonedDateTime.now(ZoneId.of("UTC+08:00")).minusDays(6 - i)
+                                            .toLocalDate().toString();
+                        past7days[i] = dataSnapshot.child(otherDate).getValue(Long.class);
+                        if (past7days[i] == null) {
+                            past7days[i] = 0L;
+                        }
+                    }
                     Log.i(TAG, "ref added: \nmy_total: " + my_total +
                             "\nmy_today: " + my_today);
                     render();
@@ -226,6 +245,21 @@ public class StatsActivity extends AppCompatActivity {
             txt_all_avg.setText(processTime(all_today / total_users));
         } else {
             txt_all_avg.setText("-1");
+        }
+        graph.setVisibility(View.VISIBLE);
+        try {
+            LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[] {
+                    new DataPoint(0, past7days[0]),
+                    new DataPoint(1, past7days[1]),
+                    new DataPoint(2, past7days[2]),
+                    new DataPoint(3, past7days[3]),
+                    new DataPoint(4, past7days[4]),
+                    new DataPoint(5, past7days[5]),
+                    new DataPoint(6, past7days[6]),
+            });
+            graph.addSeries(series);
+        } catch (IllegalArgumentException e) {
+            Log.i(TAG, Objects.requireNonNull(e.getMessage()));
         }
     }
 

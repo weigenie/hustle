@@ -65,6 +65,10 @@
             android:name="com.example.hustle.MapsActivity"
             android:label="MapsActivity">
         </activity>
+        <activity
+            android:name="com.example.hustle.GraphsActivity"
+            android:label="GraphsActivity">
+        </activity>
 
     </application>
 

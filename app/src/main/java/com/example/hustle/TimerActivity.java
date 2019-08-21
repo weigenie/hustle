@@ -203,8 +203,8 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
                 reset();
                 break;
             case R.id.imageViewStartStop:
-                startActivity(new Intent(this, MapsActivity.class));
-//                startStop();
+//                startActivity(new Intent(this, MapsActivity.class));
+                startStop();
                 break;
         }
     }

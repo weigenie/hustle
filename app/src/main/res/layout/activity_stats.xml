@@ -77,7 +77,6 @@
         android:layout_marginTop="20dp"
         android:layout_marginBottom="58dp">
 
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -89,8 +88,7 @@
                 android:layout_width="370dp"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="20dp"
-                app:cardCornerRadius="20dp">
+                android:layout_marginTop="20dp">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -186,12 +184,19 @@
                 android:textColor="#4E4E4E"
                 android:textSize="25dp" />
 
+            <com.jjoe64.graphview.GraphView
+                android:layout_width = "match_parent"
+                android:layout_height = "200dip"
+                android:id = "@+id/stats_graph"
+                android:layout_marginTop="20dp"
+                android:layout_below="@id/avg_header_textview"/>
+
             <!--PERSONAL TODAY CARD-->
             <androidx.cardview.widget.CardView
                 android:id="@+id/personal_today_cardview"
                 android:layout_width="370dp"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/avg_header_textview"
+                android:layout_below="@id/stats_graph"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="10dp"
                 app:cardCornerRadius="20dp"
